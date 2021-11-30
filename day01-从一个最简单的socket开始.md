@@ -1,4 +1,4 @@
-# day01
+# day01-从一个最简单的socket开始
 
 如果读者之前有计算机网络的基础知识那就更好了，没有也没关系，socket编程非常容易上手。但本教程主要偏向实践，不会详细讲述计算机网络协议、网络编程原理等。想快速入门可以看以下博客，讲解比较清楚、错误较少：
 
@@ -25,6 +25,5 @@ int sockfd = socket(AF_INET, SOCK_STREAM, 0);
 ```c++
 struct sockaddr_in addr;
 bzero(&addr, sizeof(addr));
-
 
 ```
