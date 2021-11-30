@@ -25,15 +25,25 @@ int sockfd = socket(AF_INET, SOCK_STREAM, 0);
 ```c++
 #include <arpa/inet.h>  //这个头文件包含了<inet/in.h>，不用再次包含了
 struct sockaddr_in addr;
-```
-
-然后使用`bzero`清空这个结构体，这个函数在头文件`<string.h>`或`<cstring>`中。如果不清空，使用gdb调试器查看addr内的变量，会是一些随机值，未来可能会导致意想不到的问题。这里用到了两条《Effective C++》的准则：
-> 条款04: 确定对象被使用前已先被初始化
-
-> 条款01: 视C++为一个语言联邦
-
-```c++
 bzero(&addr, sizeof(addr));
 ```
+然后使用`bzero`清空这个结构体，这个函数在头文件`<string.h>`或`<cstring>`中。这里用到了两条《Effective C++》的准则：
+> 条款04: 确定对象被使用前已先被初始化。如果不清空，使用gdb调试器查看addr内的变量，会是一些随机值，未来可能会导致意想不到的问题。
 
-> 为什么定义的时候使用专用socket地址（sockaddr_in），绑定的时候要转化为通用socket地址（sockaddr），在游双《Linux高性能服务器编程》第五章第一节：socket地址API中有详细讨论。
+> 条款01: 视C++为一个语言联邦。把C和C++看作两种语言，写代码时需要清楚地知道自己在写C还是C++。如果在写C，请包含头文件`<string.h>`。如果在写C++，请包含`<cstring>`
+
+设置IP地址和端口：
+
+```c++
+
+```
+
+然后将socket地址与文件描述符绑定：
+
+```c++
+bind();
+```
+
+
+> 为什么定义的时候使用专用socket地址（sockaddr_in），绑定的时候要转化为通用socket地址（sockaddr），以及转化IP地址和端口号为网络字节序的具体函数，在游双《Linux高性能服务器编程》第五章第一节：socket地址API中有详细讨论。
+
