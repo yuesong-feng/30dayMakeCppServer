@@ -57,7 +57,7 @@ bzero(&clnt_addr, sizeof(clnt_addr));
 accept(sockfd, (sockaddr*)&clnt_addr, &clnt_addr_len);
 printf("new client fd %d! IP: %s Port: %d\n", sockfd, inet_ntoa(clnt_addr.sin_addr), ntohs(clnt_addr.sin_port));
 ```
-要注意和`accept`和`bind`的第三个参数有一点区别，对于`bind`只需要传入serv_addr的大小即可，而`accept`需要客户端socket长度，所以需要定义一个类型为`socklen_t`的变量，并传入这个变量的地址。另外，`accept`函数会阻塞当前程序，直到有一个客户端socket被接受后程序才会往下运行。
+要注意和`accept`和`bind`的第三个参数有一点区别，对于`bind`只需要传入serv_addr的大小即可，而`accept`需要写入客户端socket长度，所以需要定义一个类型为`socklen_t`的变量，并传入这个变量的地址。另外，`accept`函数会阻塞当前程序，直到有一个客户端socket被接受后程序才会往下运行。
 
 到现在，客户端已经可以通过IP地址和端口号连接到这个socket端口了，让我们写一个测试客户端连接试试：
 ```cpp
