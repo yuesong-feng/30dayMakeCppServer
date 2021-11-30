@@ -20,10 +20,17 @@ int sockfd = socket(AF_INET, SOCK_STREAM, 0);
 - 第二个参数：协议，SOCK_STREAM表示使用TCP协议
 - 第三个参数：0表示根据前面的两个参数自动推导协议类型
 
-对于客户端，服务器存在的唯一标识是一个IP地址和端口，这时候我们需要将这个套接字绑定到一个IP地址和端口上
+对于客户端，服务器存在的唯一标识是一个IP地址和端口，这时候我们需要将这个套接字绑定到一个IP地址和端口上。首先创建一个sockaddr_in结构体
 
 ```c++
+#include <arpa/inet.h>  //这个头文件包含了<inet/in.h>，不用再次包含了
 struct sockaddr_in addr;
-bzero(&addr, sizeof(addr));
+```
+然后使用`bzero`清空这个结构体，这个函数在头文件`<string.h>`或`<cstring>`中。如果不清空，使用gdb调试器查看addr内的变量，会是一些随机值，未来可能会导致意想不到的问题。这里用到了两条《Effective C++》的准则：
+> 条款04: 确定对象被使用前已先被初始化
 
+> 条款01: 视C++为一个语言联邦
+
+```c++
+bzero(&addr, sizeof(addr));
 ```
