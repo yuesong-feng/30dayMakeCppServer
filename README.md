@@ -16,28 +16,28 @@ C/C++学习的一个难点在于初学时无法做出实际上的东西，没有
 
 在code文件夹里有每一天的代码文件夹，进入该文件夹，使用`make`命令编译，会生成两个可执行文件，输入命令`./server`就能看到今天的学习成果！然后新建一个Terminal，然后输入`./client`运行客户端，与服务器交互。
 
-[day01-从一个最简单的socket开始](./day01-从一个最简单的socket开始.md)
+[day01-从一个最简单的socket开始](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day01-从一个最简单的socket开始.md)
 
-[day02-不要放过任何一个错误]()
+day02-不要放过任何一个错误
 
-[day03-高并发还得用epoll]()
+day03-高并发还得用epoll
 
-[day04-来看看我们的第一个类]()
+day04-来看看我们的第一个类
 
-[day05-事件驱动和Reactor模式]()
+day05-事件驱动和Reactor模式
 
-[day06-服务器核心Server类登场]()
+day06-服务器核心Server类登场
 
-[day07-为我们的服务器添加一个Acceptor]()
+day07-为我们的服务器添加一个Acceptor
 
-[day08-一切皆是类，连TCP连接也不例外]()
+day08-一切皆是类，连TCP连接也不例外
 
-[day09-将时间倒回六天前]()
+day09-将时间倒回六天前
 
-[day10-进一步完善Channel类]()
+day10-进一步完善Channel类
 
-[day11-将服务器特化]()
+day11-将服务器特化
 
-[day12-加入缓冲区类Buffer]()
+day12-加入缓冲区类Buffer
 
 ......
