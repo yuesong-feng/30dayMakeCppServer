@@ -28,7 +28,7 @@ int main() {
             break;
         }
         bzero(&buf, sizeof(buf));
-        int read_bytes = read(sockfd, buf, sizeof(buf));
+        ssize_t read_bytes = read(sockfd, buf, sizeof(buf));
         if(read_bytes > 0){
             printf("message from server: %s\n", buf);
         }else if(read_bytes == 0){
