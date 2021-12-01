@@ -3,6 +3,8 @@
 #include <stdlib.h>
 
 void errif(bool condition, const char *errmsg){
-    perror(errmsg);
-    exit(EXIT_FAILURE);
+    if(condition){
+        perror(errmsg);
+        exit(EXIT_FAILURE);
+    }
 }
