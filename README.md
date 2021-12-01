@@ -18,7 +18,7 @@ C/C++学习的一个难点在于初学时无法做出实际上的东西，没有
 
 [day01-从一个最简单的socket开始](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day01-从一个最简单的socket开始.md)
 
-day02-不要放过任何一个错误
+[day02-不要放过任何一个错误](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day02-不要放过任何一个错误.md)
 
 day03-高并发还得用epoll
 
