@@ -67,10 +67,9 @@ bzero(&serv_addr, sizeof(serv_addr));
 serv_addr.sin_family = AF_INET;
 serv_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
 serv_addr.sin_port = htons(8888);
-bind(sockfd, (sockaddr*)&serv_addr, sizeof(serv_addr));
 connect(sockfd, (sockaddr*)&serv_addr, sizeof(serv_addr));  
 ```
-除了最后一行，代码和服务器代码几乎一样：创建一个socket文件描述符，与一个IP地址和端口绑定，最后并不是监听这个端口，而是使用`connect`函数尝试连接这个服务器。
+代码和服务器代码几乎一样：创建一个socket文件描述符，与一个IP地址和端口绑定，最后并不是监听这个端口，而是使用`connect`函数尝试连接这个服务器。
 
 至此，day01的教程已经结束了，进入`code/day01`文件夹，使用make命令编译，将会得到`server`和`client`。输入命令`./server`开始运行，直到`accept`函数，程序阻塞、等待客户端连接。然后在一个新终端输入命令`./client`运行客户端，可以看到服务器接收到了客户端的连接请求，并成功连接。
 ```
