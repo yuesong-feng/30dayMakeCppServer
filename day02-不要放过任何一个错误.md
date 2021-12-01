@@ -80,7 +80,7 @@ while(true){
         break;
     }
     bzero(&buf, sizeof(buf));       //清空缓冲区 
-    int read_bytes = read(sockfd, buf, sizeof(buf));    //从服务器socket读到缓冲区，返回已读数据大小
+    ssize_t read_bytes = read(sockfd, buf, sizeof(buf));    //从服务器socket读到缓冲区，返回已读数据大小
     if(read_bytes > 0){
         printf("message from server: %s\n", buf);
     }else if(read_bytes == 0){      //read返回0，表示EOF，通常是服务器断开链接，等会儿进行测试
