@@ -3,7 +3,6 @@
 
 class EventLoop;
 class Socket;
-class InetAddress;
 class Channel;
 class Acceptor
 {
