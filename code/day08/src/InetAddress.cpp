@@ -13,3 +13,15 @@ InetAddress::InetAddress(const char* ip, uint16_t port) : addr_len(sizeof(addr))
 
 InetAddress::~InetAddress(){
 }
+
+void InetAddress::setInetAddr(sockaddr_in _addr, socklen_t _addr_len){
+    addr = _addr;
+    addr_len = _addr_len;
+}
+
+sockaddr_in InetAddress::getAddr(){
+    return addr;
+}
+socklen_t InetAddress::getAddr_len(){
+    return addr_len;
+}
