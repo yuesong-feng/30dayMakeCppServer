@@ -1,9 +1,6 @@
 #include <iostream>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <string.h>
 #include <unistd.h>
-#include <string>
+#include <string.h>
 #include "src/util.h"
 #include "src/Buffer.h"
 #include "src/InetAddress.h"
