@@ -4,7 +4,7 @@
 
 将TCP连接也分离到Connection类
 
-本来Buffer放在day09，忘了保存day08的代码，就合并到一起了
+本来Buffer放在day09，忘了保存day08的代码，就合并到一起了，跨度有点大
 
 将服务器的读改成用Buffer，顺便改写客户端
 
