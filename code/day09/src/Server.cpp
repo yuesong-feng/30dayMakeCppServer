@@ -27,5 +27,4 @@ void Server::deleteConnection(Socket *sock){
     Connection *conn = connections[sock->getFd()];
     connections.erase(sock->getFd());
     delete conn;
-    delete sock;
 }
