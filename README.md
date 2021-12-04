@@ -33,5 +33,7 @@ C/C++学习的一个难点在于初学时无法做出实际上的东西，没有
 
 [day08-一切皆是类，连TCP连接也不例外](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day08-一切皆是类，连TCP连接也不例外.md)
 
+[day09-缓冲区-大作用](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day09-缓冲区-大作用.md)
+
 
 ......
