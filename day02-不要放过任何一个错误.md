@@ -47,7 +47,7 @@ errif(connect(sockfd, (sockaddr*)&serv_addr, sizeof(serv_addr)) == -1, "socket c
 到现在最简单的错误处理函数已经封装好了，但这仅仅用于本教程的开发，在真实的服务器开发中，错误绝不是一个如此简单的话题。
 
 当我们建立一个socket连接后，就可以使用`<unistd.h>`头文件中`read`和`write`来进行网络接口的数据读写操作了。
-> 这两个函数用于TCP连接。如果是UDP，需要使用`send`和`recv`，这些函数的详细用法可以参考游双《Linux高性能服务器编程》第五章第八节。
+> 这两个函数用于TCP连接。如果是UDP，需要使用`sendto`和`recvfrom`，这些函数的详细用法可以参考游双《Linux高性能服务器编程》第五章第八节。
 
 接下来的教程用注释的形式写在代码中，先来看服务器代码：
 ```cpp
