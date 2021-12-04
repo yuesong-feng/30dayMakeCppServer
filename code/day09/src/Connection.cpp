@@ -21,7 +21,7 @@ Connection::~Connection(){
 }
 
 void Connection::echo(int sockfd){
-    char buf[4];     //这个版本，这个值无所谓
+    char buf[1024];     //这个buf大小无所谓
     while(true){    //由于使用非阻塞IO，读取客户端buffer，一次读取buf大小数据，直到全部读取完毕
         bzero(&buf, sizeof(buf));
         ssize_t bytes_read = read(sockfd, buf, sizeof(buf));
