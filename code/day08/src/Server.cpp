@@ -23,8 +23,9 @@ void Server::newConnection(Socket *sock){
     connections[sock->getFd()] = conn;
 }
 
-void Server::deleteConnection(Socket * sock){
+void Server::deleteConnection(Socket *sock){
     Connection *conn = connections[sock->getFd()];
     connections.erase(sock->getFd());
     delete conn;
+    delete sock;
 }

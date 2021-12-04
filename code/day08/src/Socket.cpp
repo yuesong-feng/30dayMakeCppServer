@@ -44,6 +44,11 @@ int Socket::accept(InetAddress *_addr){
     _addr->setInetAddr(addr, addr_len);
     return clnt_sockfd;
 }
+void Socket::connect(InetAddress *_addr){
+    struct sockaddr_in addr = _addr->getAddr();
+    socklen_t addr_len = _addr->getAddr_len();
+    errif(::connect(fd, (sockaddr*)&addr, addr_len) == -1, "socket connect error");
+}
 
 int Socket::getFd(){
     return fd;
