@@ -19,7 +19,7 @@ Server::~Server(){
 void Server::newConnection(Socket *sock){
     Connection *conn = new Connection(loop, sock);
     std::function<void(Socket*)> cb = std::bind(&Server::deleteConnection, this, std::placeholders::_1);
-    conn->setdeleteConnectionCallback(cb);
+    conn->setDeleteConnectionCallback(cb);
     connections[sock->getFd()] = conn;
 }
 

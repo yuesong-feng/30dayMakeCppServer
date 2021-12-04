@@ -14,8 +14,8 @@ private:
 public:
     Connection(EventLoop *_loop, Socket *_sock);
     ~Connection();
-
+    
     void echo(int sockfd);
-    void setdeleteConnectionCallback(std::function<void(Socket*)>);
+    void setDeleteConnectionCallback(std::function<void(Socket*)>);
 };
 

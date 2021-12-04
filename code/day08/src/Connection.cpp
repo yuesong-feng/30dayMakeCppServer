@@ -40,6 +40,6 @@ void Connection::echo(int sockfd){
     }
 }
 
-void Connection::setdeleteConnectionCallback(std::function<void(Socket*)> _cb){
+void Connection::setDeleteConnectionCallback(std::function<void(Socket*)> _cb){
     deleteConnectionCallback = _cb;
 }
