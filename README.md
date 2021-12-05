@@ -35,5 +35,26 @@ C/C++学习的一个难点在于初学时无法做出实际上的东西，没有
 
 [day09-缓冲区-大作用](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day09-缓冲区-大作用.md)
 
+day10-加入线程池到服务器
+
+### todo list:
+
+定时器
+
+日志系统
+
+拷贝控制
+
+性能优化-移动语义
+
+多线程多工作线程模式Reactor
+
+HTTP协议支持
+
+用户特例化
+
+webbench测试
+
+使用CMake
 
 ......
