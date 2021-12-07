@@ -1,9 +1,14 @@
+/******************************
+*   author: yuesong-feng
+*   
+*
+*
+******************************/
 #include "Server.h"
 #include "Socket.h"
 #include "Acceptor.h"
 #include "Connection.h"
 #include <functional>
-
 
 Server::Server(EventLoop *_loop) : loop(_loop), acceptor(nullptr){ 
     acceptor = new Acceptor(loop);

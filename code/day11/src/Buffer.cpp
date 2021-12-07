@@ -1,14 +1,15 @@
+/******************************
+*   author: yuesong-feng
+*   
+*
+*
+******************************/
 #include "Buffer.h"
 #include <string.h>
 #include <iostream>
-Buffer::Buffer()
-{
-}
+Buffer::Buffer() {}
 
-Buffer::~Buffer()
-{
-}
-
+Buffer::~Buffer() {}
 
 void Buffer::append(const char* _str, int _size){
     for(int i = 0; i < _size; ++i){

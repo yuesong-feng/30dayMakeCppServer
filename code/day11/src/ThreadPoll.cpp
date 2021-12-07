@@ -1,3 +1,9 @@
+/******************************
+*   author: yuesong-feng
+*   
+*
+*
+******************************/
 #include "ThreadPoll.h"
 
 ThreadPoll::ThreadPoll(int size) : stop(false){

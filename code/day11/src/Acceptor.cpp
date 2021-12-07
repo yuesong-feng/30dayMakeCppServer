@@ -1,3 +1,9 @@
+/******************************
+*   author: yuesong-feng
+*   
+*
+*
+******************************/
 #include "Acceptor.h"
 #include "Socket.h"
 #include "InetAddress.h"
@@ -7,12 +13,12 @@ Acceptor::Acceptor(EventLoop *_loop) : loop(_loop), sock(nullptr), acceptChannel
     sock = new Socket();
     InetAddress *addr = new InetAddress("127.0.0.1", 1234);
     sock->bind(addr);
-    sock->listen(); 
     sock->setnonblocking();
+    sock->listen(); 
     acceptChannel = new Channel(loop, sock->getFd());
     std::function<void()> cb = std::bind(&Acceptor::acceptConnection, this);
-    acceptChannel->setCallback(cb);
-    acceptChannel->enableReadingLT();
+    acceptChannel->setReadCallback(cb);
+    acceptChannel->enableRead();
     acceptChannel->setUseThreadPoll(false);
     delete addr;
 }

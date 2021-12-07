@@ -1,10 +1,17 @@
+/******************************
+*   author: yuesong-feng
+*   
+*
+*
+******************************/
 #include "Channel.h"
 #include "EventLoop.h"
+#include "Socket.h"
 #include <unistd.h>
+#include <sys/epoll.h>
 
 Channel::Channel(EventLoop *_loop, int _fd) 
-    : loop(_loop), fd(_fd), events(0), revents(0), inEpoll(false), useThreadPoll(true){
-}
+    : loop(_loop), fd(_fd), events(0), ready(0), inEpoll(false), useThreadPoll(true){}
 
 Channel::~Channel(){
     if(fd != -1){
@@ -14,22 +21,30 @@ Channel::~Channel(){
 }
 
 void Channel::handleEvent(){
-    if(useThreadPoll){
-        loop->addThread(callback);
-    } else{
-        callback();
+    if(ready & (EPOLLIN | EPOLLPRI)){
+        if(useThreadPoll)       
+            loop->addThread(readCallback);
+        else
+            readCallback();
     }
+    if(ready & (EPOLLOUT)){
+        if(useThreadPoll)       
+            loop->addThread(writeCallback);
+        else
+            writeCallback();
+    }
+
 }
 
-void Channel::enableReading(){
-    events |= EPOLLIN | EPOLLET;
-    loop->updateChannel(this);
-}
-void Channel::enableReadingLT(){
-    events |= EPOLLIN;
+void Channel::enableRead(){
+    events |= EPOLLIN | EPOLLPRI;
     loop->updateChannel(this);
 }
 
+void Channel::useET(){
+    events |= EPOLLET;
+    loop->updateChannel(this);
+}
 int Channel::getFd(){
     return fd;
 }
@@ -37,28 +52,24 @@ int Channel::getFd(){
 uint32_t Channel::getEvents(){
     return events;
 }
-uint32_t Channel::getRevents(){
-    return revents;
+uint32_t Channel::getReady(){
+    return ready;
 }
 
 bool Channel::getInEpoll(){
     return inEpoll;
 }
 
-void Channel::setInEpoll(){
-    inEpoll = true;
+void Channel::setInEpoll(bool _in){
+    inEpoll = _in;
 }
 
-// void Channel::setEvents(uint32_t _ev){
-//     events = _ev;
-// }
-
-void Channel::setRevents(uint32_t _ev){
-    revents = _ev;
+void Channel::setReady(uint32_t _ev){
+    ready = _ev;
 }
 
-void Channel::setCallback(std::function<void()> _cb){
-    callback = _cb;
+void Channel::setReadCallback(std::function<void()> _cb){
+    readCallback = _cb;
 }
 void Channel::setUseThreadPoll(bool use){
     useThreadPoll = use;

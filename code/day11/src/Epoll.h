@@ -1,3 +1,9 @@
+/******************************
+*   author: yuesong-feng
+*   
+*
+*
+******************************/
 #pragma once
 #include <sys/epoll.h>
 #include <vector>
@@ -12,9 +18,9 @@ public:
     Epoll();
     ~Epoll();
 
-    // void addFd(int fd, uint32_t op);
     void updateChannel(Channel*);
-    // std::vector<epoll_event> poll(int timeout = -1);
+    void deleteChannel(Channel*);
+
     std::vector<Channel*> poll(int timeout = -1);
 };
 

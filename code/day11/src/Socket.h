@@ -1,3 +1,10 @@
+/******************************
+*   author: yuesong-feng
+*   
+*
+*
+******************************/
+
 #pragma once
 
 class InetAddress;
@@ -12,11 +19,11 @@ public:
 
     void bind(InetAddress*);
     void listen();
-    void setnonblocking();
-
     int accept(InetAddress*);
+
     void connect(InetAddress*);
 
+    void setnonblocking();
     int getFd();
 };
 

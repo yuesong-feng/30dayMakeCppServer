@@ -1,9 +1,9 @@
+src=$(wildcard src/*.cpp)
+
 server:
 	g++ server.cpp \
 	-pthread -g \
-	src/util.cpp src/Epoll.cpp src/InetAddress.cpp src/Socket.cpp src/Connection.cpp \
-	src/Channel.cpp src/EventLoop.cpp src/Server.cpp src/Acceptor.cpp src/Buffer.cpp \
-	src/ThreadPoll.cpp \
+	$(src) \
 	-o server
 	
 client:

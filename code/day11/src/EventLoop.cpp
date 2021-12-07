@@ -1,3 +1,9 @@
+/******************************
+*   author: yuesong-feng
+*   
+*
+*
+******************************/
 #include "EventLoop.h"
 #include "Epoll.h"
 #include "Channel.h"
@@ -10,6 +16,7 @@ EventLoop::EventLoop() : ep(nullptr), threadPoll(nullptr), quit(false){
 }
 
 EventLoop::~EventLoop(){
+    delete threadPoll;
     delete ep;
 }
 

@@ -1,3 +1,9 @@
+/******************************
+*   author: yuesong-feng
+*   
+*
+*
+******************************/
 #include "Connection.h"
 #include "Socket.h"
 #include "Channel.h"
@@ -9,17 +15,24 @@
 
 Connection::Connection(EventLoop *_loop, Socket *_sock) : loop(_loop), sock(_sock), channel(nullptr), inBuffer(new std::string()), readBuffer(nullptr){
     channel = new Channel(loop, sock->getFd());
+    channel->enableRead();
+    channel->useET();
     std::function<void()> cb = std::bind(&Connection::echo, this, sock->getFd());
-    channel->setCallback(cb);
-    channel->enableReading();
-    channel->setUseThreadPoll(false);
+    channel->setReadCallback(cb);
+    channel->setUseThreadPoll(true);
     readBuffer = new Buffer();
 }
 
 Connection::~Connection(){
     delete channel;
     delete sock;
+    delete readBuffer;
 }
+
+void Connection::setDeleteConnectionCallback(std::function<void(Socket*)> _cb){
+    deleteConnectionCallback = _cb;
+}
+
 
 void Connection::echo(int sockfd){
     char buf[1024];     //这个buf大小无所谓
@@ -41,10 +54,8 @@ void Connection::echo(int sockfd){
             // close(sockfd);   //关闭socket会自动将文件描述符从epoll树上移除
             deleteConnectionCallback(sock);
             break;
+        } else {
+            errif(true, "read error");
         }
     }
-}
-
-void Connection::setDeleteConnectionCallback(std::function<void(Socket*)> _cb){
-    deleteConnectionCallback = _cb;
 }
