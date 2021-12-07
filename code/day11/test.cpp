@@ -10,7 +10,7 @@
 
 using namespace std;
 
-void oneClient(){
+void oneClient(int msgs, int wait){
     Socket *sock = new Socket();
     InetAddress *addr = new InetAddress("127.0.0.1", 1234);
     sock->connect(addr);
@@ -19,9 +19,10 @@ void oneClient(){
 
     Buffer *sendBuffer = new Buffer();
     Buffer *readBuffer = new Buffer();
+
+    sleep(wait);
     int count = 0;
-    while(true){
-        // sleep(10000);
+    while(count < msgs){
         sendBuffer->setBuf("I'm client!");
         ssize_t write_bytes = write(sockfd, sendBuffer->c_str(), sendBuffer->size());
         if(write_bytes == -1){
@@ -51,12 +52,34 @@ void oneClient(){
     delete sock;
 }
 
-int main() {
-    ThreadPoll *poll = new ThreadPoll();
-    std::function<void()> func = oneClient;
-    for(int i = 0; i < 10; ++i){
-        sleep(1);
-        poll->add(oneClient);
+int main(int argc, char *argv[]) {
+    int threads = 100;
+    int msgs = 100;
+    int wait = 0;
+    int o;
+    const char *optstring = "t:m:w:";
+    while ((o = getopt(argc, argv, optstring)) != -1) {
+        switch (o) {
+            case 't':
+                threads = stoi(optarg);
+                break;
+            case 'm':
+                msgs = stoi(optarg);
+                break;
+            case 'w':
+                wait = stoi(optarg);
+                break;
+            case '?':
+                printf("error optopt: %c\n", optopt);
+                printf("error opterr: %d\n", opterr);
+                break;
+        }
+    }
+
+    ThreadPoll *poll = new ThreadPoll(threads);
+    std::function<void()> func = std::bind(oneClient, msgs, wait);
+    for(int i = 0; i < threads; ++i){
+        poll->add(func);
     }
     delete poll;
     return 0;

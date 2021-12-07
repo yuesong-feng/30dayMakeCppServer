@@ -11,12 +11,14 @@ private:
     uint32_t revents;
     bool inEpoll;
     std::function<void()> callback;
+    bool useThreadPoll;
 public:
     Channel(EventLoop *_loop, int _fd);
     ~Channel();
 
     void handleEvent();
     void enableReading();
+    void enableReadingLT();
 
     int getFd();
     uint32_t getEvents();
@@ -27,5 +29,6 @@ public:
     // void setEvents(uint32_t);
     void setRevents(uint32_t);
     void setCallback(std::function<void()>);
+    void setUseThreadPoll(bool use);
 };
 

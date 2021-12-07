@@ -12,6 +12,7 @@ Connection::Connection(EventLoop *_loop, Socket *_sock) : loop(_loop), sock(_soc
     std::function<void()> cb = std::bind(&Connection::echo, this, sock->getFd());
     channel->setCallback(cb);
     channel->enableReading();
+    channel->setUseThreadPoll(false);
     readBuffer = new Buffer();
 }
 
@@ -31,7 +32,6 @@ void Connection::echo(int sockfd){
             printf("continue reading");
             continue;
         } else if(bytes_read == -1 && ((errno == EAGAIN) || (errno == EWOULDBLOCK))){//非阻塞IO，这个条件表示数据全部读取完毕
-            printf("finish reading once\n");
             printf("message from client fd %d: %s\n", sockfd, readBuffer->c_str());
             errif(write(sockfd, readBuffer->c_str(), readBuffer->size()) == -1, "socket write error");
             readBuffer->clear();
