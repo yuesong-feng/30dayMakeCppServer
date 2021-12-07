@@ -37,6 +37,8 @@ C/C++学习的一个难点在于初学时无法做出实际上的东西，没有
 
 [day10-加入线程池到服务器](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day10-加入线程池到服务器.md)
 
+[day11-完善服务器，找bug，写测试](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day11-完善服务器，找bug，写测试.md)
+
 ### todo list:
 
 定时器
