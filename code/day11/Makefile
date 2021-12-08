@@ -9,11 +9,11 @@ server:
 client:
 	g++ src/util.cpp src/Buffer.cpp src/Socket.cpp src/InetAddress.cpp client.cpp -o client
 
-threadTest:
-	g++ -pthread src/ThreadPoll.cpp ThreadPollTest.cpp -o ThreadPollTest
+th:
+	g++ -pthread src/ThreadPool.cpp ThreadPoolTest.cpp -o ThreadPoolTest
 
 test:
-	g++ src/util.cpp src/Buffer.cpp src/Socket.cpp src/InetAddress.cpp src/ThreadPoll.cpp \
+	g++ src/util.cpp src/Buffer.cpp src/Socket.cpp src/InetAddress.cpp src/ThreadPool.cpp \
 	-pthread \
 	test.cpp -o test
 

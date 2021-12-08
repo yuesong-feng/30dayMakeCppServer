@@ -19,7 +19,7 @@ Connection::Connection(EventLoop *_loop, Socket *_sock) : loop(_loop), sock(_soc
     channel->useET();
     std::function<void()> cb = std::bind(&Connection::echo, this, sock->getFd());
     channel->setReadCallback(cb);
-    channel->setUseThreadPoll(true);
+    channel->setUseThreadPool(true);
     readBuffer = new Buffer();
 }
 

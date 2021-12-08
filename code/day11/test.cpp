@@ -6,7 +6,7 @@
 #include "src/Buffer.h"
 #include "src/InetAddress.h"
 #include "src/Socket.h"
-#include "src/ThreadPoll.h"
+#include "src/ThreadPool.h"
 
 using namespace std;
 
@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    ThreadPoll *poll = new ThreadPoll(threads);
+    ThreadPool *poll = new ThreadPool(threads);
     std::function<void()> func = std::bind(oneClient, msgs, wait);
     for(int i = 0; i < threads; ++i){
         poll->add(func);
