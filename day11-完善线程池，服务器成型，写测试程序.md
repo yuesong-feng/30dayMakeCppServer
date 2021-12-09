@@ -12,7 +12,7 @@ bug1：acceptor应该使用LT模式，建立好连接后处理事件用ET
 
 bug2：acceptor建立连接不应该使用线程池，建立好连接后处理事件用线程池
 
-bug3：使用线程池，并发太高断开连接经常会出现Segmentation fault或Bad file description等错误，原因不明
+bug3：使用线程池，并发太高断开连接经常会出现Segmentation fault或Bad file description等错误，把服务器write注释掉一切正常，可能是服务器write逻辑有问题，在下个版本重写
 
 bug4：线程池add函数不能放在cpp文件中，原因不明
 
@@ -26,6 +26,10 @@ ulimit -a
 
 ulimit -c unlimited
 
-gdb --core=core
+<!-- gdb --core=core -->
+
+gdb server
+
+r
 
 where / bt
