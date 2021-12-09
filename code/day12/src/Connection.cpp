@@ -19,7 +19,6 @@ Connection::Connection(EventLoop *_loop, Socket *_sock) : loop(_loop), sock(_soc
     channel->useET();
     std::function<void()> cb = std::bind(&Connection::echo, this, sock->getFd());
     channel->setReadCallback(cb);
-    channel->setUseThreadPool(true);
     readBuffer = new Buffer();
 }
 
@@ -52,11 +51,11 @@ void Connection::echo(int sockfd){
             break;
         } else if(bytes_read == 0){  //EOF，客户端断开连接
             printf("EOF, client fd %d disconnected\n", sockfd);
-            deleteConnectionCallback(sockfd);           //多线程会有bug
+            deleteConnectionCallback(sockfd);           
             break;
         } else {
             printf("Connection reset by peer\n");
-            deleteConnectionCallback(sockfd);          //会有bug，注释后单线程无bug
+            deleteConnectionCallback(sockfd);         
             break;
         }
     }

@@ -39,6 +39,8 @@ C/C++学习的一个难点在于初学时无法做出实际上的东西，没有
 
 [day11-完善线程池，服务器成型，写测试程序](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day11-完善线程池，服务器成型，写测试程序.md)
 
+[day12-改写线程模式为one_loop_per_thread](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day12-改写线程模式为one_loop_per_thread.md)
+
 ### todo list:
 
 定时器
@@ -50,8 +52,6 @@ C/C++学习的一个难点在于初学时无法做出实际上的东西，没有
 智能指针
 
 性能优化-移动语义
-
-多线程多工作线程模式Reactor
 
 HTTP协议支持
 

@@ -22,7 +22,7 @@ public:
 
     void handleReadEvent(int);
     void newConnection(Socket *sock);
-    void deleteConnection(Socket *sock);
+    void deleteConnection(int sockfd);
 };
 
 
