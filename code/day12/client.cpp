@@ -3,7 +3,6 @@
 #include <string.h>
 #include "src/util.h"
 #include "src/Buffer.h"
-#include "src/InetAddress.h"
 #include "src/Socket.h"
 
 using namespace std;
