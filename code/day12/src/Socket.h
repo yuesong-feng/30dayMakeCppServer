@@ -19,6 +19,8 @@ public:
 
     void setInetAddr(sockaddr_in _addr);
     sockaddr_in getAddr();
+    char* getIp();
+    uint16_t getPort();
 };
 
 class Socket

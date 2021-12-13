@@ -125,3 +125,11 @@ void InetAddress::setInetAddr(sockaddr_in _addr){
 sockaddr_in InetAddress::getAddr(){
     return addr;
 }
+
+char* InetAddress::getIp(){
+    return inet_ntoa(addr.sin_addr);
+}
+
+uint16_t InetAddress::getPort(){
+    return ntohs(addr.sin_port);
+}

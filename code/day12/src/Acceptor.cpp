@@ -29,7 +29,7 @@ Acceptor::~Acceptor(){
 void Acceptor::acceptConnection(){
     InetAddress *clnt_addr = new InetAddress();      
     Socket *clnt_sock = new Socket(sock->accept(clnt_addr));      
-    printf("new client fd %d! IP: %s Port: %d\n", clnt_sock->getFd(), inet_ntoa(clnt_addr->getAddr().sin_addr), ntohs(clnt_addr->getAddr().sin_port));
+    printf("new client fd %d! IP: %s Port: %d\n", clnt_sock->getFd(), clnt_addr->getIp(), clnt_addr->getPort());
     clnt_sock->setnonblocking();  //新接受到的连接设置为非阻塞式
     newConnectionCallback(clnt_sock);
     delete clnt_addr;
