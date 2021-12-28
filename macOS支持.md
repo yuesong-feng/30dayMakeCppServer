@@ -1,0 +1,7 @@
+作为程序员，使用MacBook电脑作为开发机很常见，本质和Linux几乎没有区别。本教程的EventLoop中使用Linux系统支持的epoll，然而macOS里并没有epoll，取而代之的是kqueue，功能和使用都和epoll很相似。
+
+Windows系统使用WSL可以完美编译运行源代码，但MacBook则需要云服务器、或是虚拟机，很麻烦。经过尝试，使用kqueue确实可以实现相似的功能，但要无缝衔接、还有很多实现上的细节。
+
+如果你使用MacBook学习本教程，请在issue里留言，人数多将会考虑支持macOS系统。
+
+支持方式：将kqueue作为底层封装为epoll，模拟Linux的epoll系统调用，学习、使用、功能和都和本教程使用的Linux epoll相同。
