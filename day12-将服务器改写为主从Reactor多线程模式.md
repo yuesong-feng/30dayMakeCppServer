@@ -52,3 +52,5 @@ Connection *conn = new Connection(subReactors[random], sock);   //分配给一�
 至此，今天的教程就结束了。在今天，一个简易服务器的所有核心模块已经开发完成，采用主从Reactor多线程模式。在这个模式中，服务器以事件驱动作为核心，服务器线程只负责mainReactor的新建连接任务，同时维护一个线程池，每一个线程也是一个事件循环，新连接建立后分发给一个subReactor开始事件监听，有事件发生则在当前线程处理。这种模式几乎是目前最先进、最好的服务器设计模式，本教程之后也会一直采用此模式。
 
 虽然架构上已经完全开发完毕了，但现在我们还不算拥有一个完整的网络库，因为网络库的业务是写死的`echo`服务，十分单一，如果要提供其他服务，如HTTP服务、FTP服务等，需要重新开发、重新写代码，这打破了通用性原则。我们希望将服务器业务处理也进一步抽象，实现用户特例化，即在`main`函数新建`Server`的时候，可以自己设计、绑定相应的业务，在之后的教程将会实现这一功能。
+
+完整源代码：[https://github.com/yuesong-feng/30dayMakeCppServer/tree/main/code/day12](https://github.com/yuesong-feng/30dayMakeCppServer/tree/main/code/day12)
