@@ -39,7 +39,7 @@ C/C++学习的一个难点在于初学时无法做出实际上的东西，没有
 
 [day11-完善线程池，服务器成型，写测试程序](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day11-完善线程池，加入一个简单的测试程序.md)
 
-[（进行中）day12-改写线程模式为one_loop_per_thread](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day12-改写线程模式为one_loop_per_thread.md)
+[day12-将服务器改写为主从Reactor多线程模式](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day12-将服务器改写为主从Reactor多线程模式.md)
 
 [（进行中）macOS支持](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/macOS支持.md)
 
