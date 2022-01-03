@@ -1,10 +1,10 @@
-#include "src/Server.h"
+#include "src/include/Server.h"
 
-#include "src/EventLoop.h"
+#include "src/include/EventLoop.h"
 
 int main() {
   EventLoop *loop = new EventLoop();
   Server *server = new Server(loop);
-  loop->loop();
+  loop->Loop();
   return 0;
 }

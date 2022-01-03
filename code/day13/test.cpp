@@ -4,10 +4,10 @@
 #include <functional>
 #include <iostream>
 
-#include "src/Buffer.h"
-#include "src/Socket.h"
-#include "src/ThreadPool.h"
-#include "src/util.h"
+#include "src/include/Buffer.h"
+#include "src/include/Socket.h"
+#include "src/include/ThreadPool.h"
+#include "src/include/util.h"
 
 using namespace std;
 
@@ -15,9 +15,9 @@ void oneClient(int msgs, int wait) {
   Socket *sock = new Socket();
   InetAddress *addr = new InetAddress("127.0.0.1", 1234);
   // sock->setnonblocking(); 客户端使用阻塞式连接比较好，方便简单不容易出错
-  sock->connect(addr);
+  sock->Connect(addr);
 
-  int sockfd = sock->getFd();
+  int sockfd = sock->GetFd();
 
   Buffer *sendBuffer = new Buffer();
   Buffer *readBuffer = new Buffer();

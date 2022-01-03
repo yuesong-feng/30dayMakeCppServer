@@ -3,18 +3,18 @@
 
 #include <iostream>
 
-#include "src/Buffer.h"
-#include "src/Socket.h"
-#include "src/util.h"
+#include "src/include/Buffer.h"
+#include "src/include/Socket.h"
+#include "src/include/util.h"
 
 using namespace std;
 
 int main() {
   Socket *sock = new Socket();
   InetAddress *addr = new InetAddress("127.0.0.1", 1234);
-  sock->connect(addr);
+  sock->Connect(addr);
 
-  int sockfd = sock->getFd();
+  int sockfd = sock->GetFd();
 
   Buffer *sendBuffer = new Buffer();
   Buffer *readBuffer = new Buffer();

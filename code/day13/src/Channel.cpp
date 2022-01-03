@@ -4,55 +4,59 @@
  *
  *
  ******************************/
-#include "Channel.h"
+#include "include/Channel.h"
 
 #include <sys/epoll.h>
 #include <unistd.h>
 
 #include <utility>
 
-#include "EventLoop.h"
-#include "Socket.h"
+#include "include/EventLoop.h"
+#include "include/Socket.h"
 
-Channel::Channel(EventLoop *_loop, int _fd)
-    : loop(_loop), fd(_fd), events(0), ready(0), inEpoll(false) {}
+Channel::Channel(EventLoop *loop, int fd)
+    : loop_(loop),
+      fd_(fd),
+      listen_events_(0),
+      ready_events_(0),
+      in_epoll_(false) {}
 
 Channel::~Channel() {
-  if (fd != -1) {
-    close(fd);
-    fd = -1;
+  if (fd_ != -1) {
+    close(fd_);
+    fd_ = -1;
   }
 }
 
-void Channel::handleEvent() {
-  if (ready & (EPOLLIN | EPOLLPRI)) {
-    readCallback();
+void Channel::HandleEvent() {
+  if (ready_events_ & (EPOLLIN | EPOLLPRI)) {
+    read_callback_();
   }
-  if (ready & (EPOLLOUT)) {
-    writeCallback();
+  if (ready_events_ & (EPOLLOUT)) {
+    write_callback_();
   }
 }
 
-void Channel::enableRead() {
-  events |= EPOLLIN | EPOLLPRI;
-  loop->updateChannel(this);
+void Channel::EnableRead() {
+  listen_events_ |= EPOLLIN | EPOLLPRI;
+  loop_->UpdateChannel(this);
 }
 
-void Channel::useET() {
-  events |= EPOLLET;
-  loop->updateChannel(this);
+void Channel::UseET() {
+  listen_events_ |= EPOLLET;
+  loop_->UpdateChannel(this);
 }
-int Channel::getFd() { return fd; }
+int Channel::GetFd() { return fd_; }
 
-uint32_t Channel::getEvents() { return events; }
-uint32_t Channel::getReady() { return ready; }
+uint32_t Channel::GetListenEvents() { return listen_events_; }
+uint32_t Channel::GetReadyEvents() { return ready_events_; }
 
-bool Channel::getInEpoll() { return inEpoll; }
+bool Channel::GetInEpoll() { return in_epoll_; }
 
-void Channel::setInEpoll(bool _in) { inEpoll = _in; }
+void Channel::SetInEpoll(bool in) { in_epoll_ = in; }
 
-void Channel::setReady(uint32_t _ev) { ready = _ev; }
+void Channel::SetReadyEvents(uint32_t ev) { ready_events_ = ev; }
 
-void Channel::setReadCallback(std::function<void()> _cb) {
-  readCallback = std::move(_cb);
+void Channel::SetReadCallback(std::function<void()> const & callback) {
+  read_callback_ = callback;
 }
