@@ -1,42 +1,39 @@
 /**
  * @file Buffer.cpp
  * @author 冯岳松 (yuesong-feng@foxmail.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2022-01-04
- * 
+ *
  * @copyright Copyright (冯岳松) 2022
- * 
+ *
  */
 #include "Buffer.h"
 
 #include <cstring>
 #include <iostream>
-Buffer::Buffer() = default;
 
-Buffer::~Buffer() = default;
-
-void Buffer::append(const char *_str, int _size) {
-  for (int i = 0; i < _size; ++i) {
-    if (_str[i] == '\0') {
+void Buffer::Append(const char *str, int size) {
+  for (int i = 0; i < size; ++i) {
+    if (str[i] == '\0') {
       break;
     }
-    buf.push_back(_str[i]);
+    buf_.push_back(str[i]);
   }
 }
 
-ssize_t Buffer::size() { return buf.size(); }
+ssize_t Buffer::Size() { return buf_.size(); }
 
-const char *Buffer::c_str() { return buf.c_str(); }
+const char *Buffer::ToStr() { return buf_.c_str(); }
 
-void Buffer::clear() { buf.clear(); }
+void Buffer::Clear() { buf_.clear(); }
 
-void Buffer::getline() {
-  buf.clear();
-  std::getline(std::cin, buf);
+void Buffer::Getline() {
+  buf_.clear();
+  std::getline(std::cin, buf_);
 }
 
-void Buffer::setBuf(const char *_buf) {
-  buf.clear();
-  buf.append(_buf);
+void Buffer::SetBuf(const char *buf) {
+  buf_.clear();
+  buf_.append(buf);
 }

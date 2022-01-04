@@ -149,7 +149,7 @@ add_custom_target(check-lint echo '${PINE_LINT_FILES}' | xargs -n12 -P8
         ${CPPLINT_BIN}
         --verbose=2 --quiet
         --linelength=120
-        --filter=-legal/copyright,-build/header_guard
+        --filter=-legal/copyright,-build/include_subdir,-readability/casting
         )
 
 ###########################################################

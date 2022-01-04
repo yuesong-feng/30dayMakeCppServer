@@ -1,14 +1,14 @@
 /**
  * @file Macros.h
  * @author 冯岳松 (yuesong-feng@foxmail.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2022-01-04
- * 
+ *
  * @copyright Copyright (冯岳松) 2022
- * 
+ *
  */
-
+#pragma once
 #define OS_LINUX
 
 // Macros to disable copying and moving

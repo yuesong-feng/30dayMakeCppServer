@@ -14,7 +14,7 @@ add_custom_target(build-tests COMMAND ${CMAKE_CTEST_COMMAND} --show-only)
 add_custom_target(check-tests COMMAND ${CMAKE_CTEST_COMMAND} --verbose)
 
 ##########################################
-# "make XYZ_test"
+# "make server client ..."
 ##########################################
 foreach (pine_test_source ${PINE_TEST_SOURCES})
     # Create a human readable name.

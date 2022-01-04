@@ -1,12 +1,12 @@
 /**
  * @file Server.cpp
  * @author 冯岳松 (yuesong-feng@foxmail.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2022-01-04
- * 
+ *
  * @copyright Copyright (冯岳松) 2022
- * 
+ *
  */
 #include "Server.h"
 
@@ -34,7 +34,7 @@ Server::Server(EventLoop *loop) : main_reactor_(loop), acceptor_(nullptr), threa
 
   for (int i = 0; i < size; ++i) {
     std::function<void()> sub_loop = std::bind(&EventLoop::Loop, sub_reactors_[i]);
-    thread_pool_->add(sub_loop);
+    thread_pool_->Add(std::move(sub_loop));
   }
 }
 
@@ -44,8 +44,8 @@ Server::~Server() {
 }
 
 void Server::NewConnection(Socket *sock) {
-  errif(sock->GetFd() == -1, "new connection error");
-  int random = sock->GetFd() % sub_reactors_.size();
+  ErrorIf(sock->GetFd() == -1, "new connection error");
+  uint64_t random = sock->GetFd() % sub_reactors_.size();
   Connection *conn = new Connection(sub_reactors_[random], sock);
   std::function<void(int)> cb = std::bind(&Server::DeleteConnection, this, std::placeholders::_1);
   conn->SetDeleteConnectionCallback(cb);

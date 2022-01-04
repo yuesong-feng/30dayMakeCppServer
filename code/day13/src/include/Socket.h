@@ -1,12 +1,12 @@
 /**
  * @file Socket.h
  * @author 冯岳松 (yuesong-feng@foxmail.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2022-01-04
- * 
+ *
  * @copyright Copyright (冯岳松) 2022
- * 
+ *
  */
 
 #pragma once
@@ -19,7 +19,7 @@ class InetAddress {
   InetAddress(const char *ip, uint16_t port);
   ~InetAddress() = default;
 
-  DISALLOW_COPY(InetAddress);
+  DISALLOW_COPY_AND_MOVE(InetAddress);
 
   void SetAddr(sockaddr_in addr);
   sockaddr_in GetAddr();
@@ -27,7 +27,7 @@ class InetAddress {
   uint16_t GetPort();
 
  private:
-  struct sockaddr_in addr_;
+  struct sockaddr_in addr_ {};
 };
 
 class Socket {
@@ -39,7 +39,7 @@ class Socket {
   explicit Socket(int fd);
   ~Socket();
 
-  DISALLOW_COPY(Socket);
+  DISALLOW_COPY_AND_MOVE(Socket);
 
   void Bind(InetAddress *addr);
   void Listen();

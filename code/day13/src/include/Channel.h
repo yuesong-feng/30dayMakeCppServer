@@ -1,12 +1,12 @@
 /**
  * @file Channel.h
  * @author 冯岳松 (yuesong-feng@foxmail.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2022-01-04
- * 
+ *
  * @copyright Copyright (冯岳松) 2022
- * 
+ *
  */
 #pragma once
 #include "Macros.h"
@@ -20,7 +20,7 @@ class Channel {
   Channel(EventLoop *loop, int fd);
   ~Channel();
 
-  DISALLOW_COPY(Channel);
+  DISALLOW_COPY_AND_MOVE(Channel);
 
   void HandleEvent();
   void EnableRead();
@@ -32,7 +32,7 @@ class Channel {
   void SetInEpoll(bool in = true);
   void UseET();
 
-  void SetReadyEvents(uint32_t);
+  void SetReadyEvents(uint32_t ev);
   void SetReadCallback(std::function<void()> const &callback);
 
  private:
