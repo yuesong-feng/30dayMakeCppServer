@@ -41,7 +41,7 @@ C/C++学习的一个难点在于初学时无法做出实际上的东西，没有
 
 [day12-将服务器改写为主从Reactor多线程模式](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day12-将服务器改写为主从Reactor多线程模式.md)
 
-[day13-C++工程化、性能优化](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day13-C++工程化、性能优化.md)
+[day13-C++工程化、代码分析、性能优化](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day13-C++工程化、代码分析、性能优化.md)
 
 [（进行中）macOS支持](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/macOS支持.md)
 
