@@ -23,7 +23,7 @@ class Server {
   ThreadPool *thread_pool_;
 
  public:
-  explicit Server(EventLoop *);
+  explicit Server(EventLoop *loop);
   ~Server();
 
   DISALLOW_COPY_AND_MOVE(Server);

@@ -20,7 +20,7 @@ class Connection {
   DISALLOW_COPY(Connection);
 
   void Echo(int sockfd);
-  void SetDeleteConnectionCallback(std::function<void(int)> const &);
+  void SetDeleteConnectionCallback(std::function<void(int)> const &callback);
   void Send(int sockfd);
 
  private:

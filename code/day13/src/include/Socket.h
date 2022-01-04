@@ -28,20 +28,20 @@ class InetAddress {
 
 class Socket {
  private:
-  int fd_;
+  int fd_{-1};
 
  public:
   Socket();
-  explicit Socket(int _fd);
+  explicit Socket(int fd);
   ~Socket();
 
   DISALLOW_COPY(Socket);
 
-  void Bind(InetAddress *);
+  void Bind(InetAddress *addr);
   void Listen();
-  int Accept(InetAddress *);
+  int Accept(InetAddress *addr);
 
-  void Connect(InetAddress *);
+  void Connect(InetAddress *addr);
 
   void SetNonBlocking();
   int GetFd();

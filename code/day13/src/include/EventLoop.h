@@ -19,9 +19,9 @@ class EventLoop {
   DISALLOW_COPY(EventLoop);
 
   void Loop();
-  void UpdateChannel(Channel *);
+  void UpdateChannel(Channel *ch);
 
  private:
-  Epoll *epoll_;
-  bool quit_;
+  Epoll *epoll_{nullptr};
+  bool quit_{false};
 };

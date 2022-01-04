@@ -4,7 +4,7 @@
  *   accept，connect都支持非阻塞式IO，但只是简单处理，如果情况太复杂可能会有意料之外的bug
  *
  ******************************/
-#include "include/Socket.h"
+#include "Socket.h"
 
 #include <fcntl.h>
 #include <sys/socket.h>
@@ -14,13 +14,13 @@
 #include <cstdio>
 #include <cstring>
 
-#include "include/util.h"
+#include "util.h"
 
-Socket::Socket() : fd_(-1) {
+Socket::Socket() {
   fd_ = socket(AF_INET, SOCK_STREAM, 0);
   errif(fd_ == -1, "socket create error");
 }
-Socket::Socket(int _fd) : fd_(_fd) { errif(fd_ == -1, "socket create error"); }
+Socket::Socket(int fd) : fd_(fd) { errif(fd_ == -1, "socket create error"); }
 
 Socket::~Socket() {
   if (fd_ != -1) {
@@ -31,16 +31,11 @@ Socket::~Socket() {
 
 void Socket::Bind(InetAddress *addr) {
   struct sockaddr_in tmp_addr = addr->GetAddr();
-  errif(bind(fd_, reinterpret_cast<sockaddr *>(&tmp_addr), sizeof(tmp_addr)) == -1,
-        "socket bind error");
+  errif(bind(fd_, reinterpret_cast<sockaddr *>(&tmp_addr), sizeof(tmp_addr)) == -1, "socket bind error");
 }
 
-void Socket::Listen() {
-  errif(::listen(fd_, SOMAXCONN) == -1, "socket listen error");
-}
-void Socket::SetNonBlocking() {
-  fcntl(fd_, F_SETFL, fcntl(fd_, F_GETFL) | O_NONBLOCK);
-}
+void Socket::Listen() { errif(::listen(fd_, SOMAXCONN) == -1, "socket listen error"); }
+void Socket::SetNonBlocking() { fcntl(fd_, F_SETFL, fcntl(fd_, F_GETFL) | O_NONBLOCK); }
 
 int Socket::Accept(InetAddress *addr) {
   // for server socket
@@ -50,8 +45,7 @@ int Socket::Accept(InetAddress *addr) {
   socklen_t addr_len = sizeof(tmp_addr);
   if (fcntl(fd_, F_GETFL) & O_NONBLOCK) {
     while (true) {
-      clnt_sockfd =
-          accept(fd_, reinterpret_cast<sockaddr *>(&tmp_addr), &addr_len);
+      clnt_sockfd = accept(fd_, reinterpret_cast<sockaddr *>(&tmp_addr), &addr_len);
       if (clnt_sockfd == -1 && ((errno == EAGAIN) || (errno == EWOULDBLOCK))) {
         // printf("no connection yet\n");
         continue;
@@ -63,8 +57,7 @@ int Socket::Accept(InetAddress *addr) {
       }
     }
   } else {
-    clnt_sockfd =
-        accept(fd_, reinterpret_cast<sockaddr *>(&tmp_addr), &addr_len);
+    clnt_sockfd = accept(fd_, reinterpret_cast<sockaddr *>(&tmp_addr), &addr_len);
     errif(clnt_sockfd == -1, "socket accept error");
   }
   addr->SetAddr(tmp_addr);
@@ -76,8 +69,7 @@ void Socket::Connect(InetAddress *addr) {
   struct sockaddr_in tmp_addr = addr->GetAddr();
   if (fcntl(fd_, F_GETFL) & O_NONBLOCK) {
     while (true) {
-      int ret = connect(fd_, reinterpret_cast<sockaddr *>(&tmp_addr),
-                        sizeof(tmp_addr));
+      int ret = connect(fd_, reinterpret_cast<sockaddr *>(&tmp_addr), sizeof(tmp_addr));
       if (ret == 0) {
         break;
       }
@@ -102,9 +94,7 @@ void Socket::Connect(InetAddress *addr) {
       }
     }
   } else {
-    errif(connect(fd_, reinterpret_cast<sockaddr *>(&tmp_addr),
-                  sizeof(tmp_addr)) == -1,
-          "socket connect error");
+    errif(connect(fd_, reinterpret_cast<sockaddr *>(&tmp_addr), sizeof(tmp_addr)) == -1, "socket connect error");
   }
 }
 

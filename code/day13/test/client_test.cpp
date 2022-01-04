@@ -4,10 +4,10 @@
 #include <functional>
 #include <iostream>
 
-#include "src/include/Buffer.h"
-#include "src/include/Socket.h"
-#include "src/include/ThreadPool.h"
-#include "src/include/util.h"
+#include "Buffer.h"
+#include "Socket.h"
+#include "ThreadPool.h"
+#include "util.h"
 
 using namespace std;
 
@@ -26,8 +26,7 @@ void oneClient(int msgs, int wait) {
   int count = 0;
   while (count < msgs) {
     sendBuffer->setBuf("I'm client!");
-    ssize_t write_bytes =
-        write(sockfd, sendBuffer->c_str(), sendBuffer->size());
+    ssize_t write_bytes = write(sockfd, sendBuffer->c_str(), sendBuffer->size());
     if (write_bytes == -1) {
       printf("socket already disconnected, can't write any more!\n");
       break;
@@ -45,8 +44,7 @@ void oneClient(int msgs, int wait) {
         exit(EXIT_SUCCESS);
       }
       if (already_read >= sendBuffer->size()) {
-        printf("count: %d, message from server: %s\n", count++,
-               readBuffer->c_str());
+        printf("count: %d, message from server: %s\n", count++, readBuffer->c_str());
         break;
       }
     }

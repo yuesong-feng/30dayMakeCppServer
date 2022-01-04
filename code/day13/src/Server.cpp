@@ -4,24 +4,22 @@
  *
  *
  ******************************/
-#include "include/Server.h"
+#include "Server.h"
 
 #include <unistd.h>
 
 #include <functional>
 
-#include "include/Acceptor.h"
-#include "include/Connection.h"
-#include "include/EventLoop.h"
-#include "include/Socket.h"
-#include "include/ThreadPool.h"
-#include "include/util.h"
+#include "Acceptor.h"
+#include "Connection.h"
+#include "EventLoop.h"
+#include "Socket.h"
+#include "ThreadPool.h"
+#include "util.h"
 
-Server::Server(EventLoop *loop)
-    : main_reactor_(loop), acceptor_(nullptr), thread_pool_(nullptr) {
+Server::Server(EventLoop *loop) : main_reactor_(loop), acceptor_(nullptr), thread_pool_(nullptr) {
   acceptor_ = new Acceptor(main_reactor_);
-  std::function<void(Socket *)> cb =
-      std::bind(&Server::NewConnection, this, std::placeholders::_1);
+  std::function<void(Socket *)> cb = std::bind(&Server::NewConnection, this, std::placeholders::_1);
   acceptor_->SetNewConnectionCallback(cb);
 
   int size = static_cast<int>(std::thread::hardware_concurrency());
@@ -31,8 +29,7 @@ Server::Server(EventLoop *loop)
   }
 
   for (int i = 0; i < size; ++i) {
-    std::function<void()> sub_loop =
-        std::bind(&EventLoop::Loop, sub_reactors_[i]);
+    std::function<void()> sub_loop = std::bind(&EventLoop::Loop, sub_reactors_[i]);
     thread_pool_->add(sub_loop);
   }
 }
@@ -46,8 +43,7 @@ void Server::NewConnection(Socket *sock) {
   errif(sock->GetFd() == -1, "new connection error");
   int random = sock->GetFd() % sub_reactors_.size();
   Connection *conn = new Connection(sub_reactors_[random], sock);
-  std::function<void(int)> cb =
-      std::bind(&Server::DeleteConnection, this, std::placeholders::_1);
+  std::function<void(int)> cb = std::bind(&Server::DeleteConnection, this, std::placeholders::_1);
   conn->SetDeleteConnectionCallback(cb);
   connections_[sock->GetFd()] = conn;
 }

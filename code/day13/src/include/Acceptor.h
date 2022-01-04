@@ -20,7 +20,7 @@ class Acceptor {
   DISALLOW_COPY(Acceptor);
 
   void AcceptConnection();
-  void SetNewConnectionCallback(std::function<void(Socket *)> const &);
+  void SetNewConnectionCallback(std::function<void(Socket *)> const &callback);
 
  private:
   EventLoop *loop_;

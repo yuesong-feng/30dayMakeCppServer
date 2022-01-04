@@ -29,7 +29,7 @@ class Channel {
   void UseET();
 
   void SetReadyEvents(uint32_t);
-  void SetReadCallback(std::function<void()> const &);
+  void SetReadCallback(std::function<void()> const &callback);
 
  private:
   EventLoop *loop_;

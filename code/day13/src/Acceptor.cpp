@@ -4,15 +4,15 @@
  *
  *
  ******************************/
-#include "include/Acceptor.h"
+#include "Acceptor.h"
 
 #include <utility>
 
-#include "include/Channel.h"
-#include "include/Socket.h"
+#include "Channel.h"
 
-Acceptor::Acceptor(EventLoop *loop)
-    : loop_(loop), sock_(nullptr), channel_(nullptr) {
+#include "Socket.h"
+
+Acceptor::Acceptor(EventLoop *loop) : loop_(loop), sock_(nullptr), channel_(nullptr) {
   sock_ = new Socket();
   InetAddress *addr = new InetAddress("127.0.0.1", 1234);
   sock_->Bind(addr);
@@ -33,13 +33,12 @@ Acceptor::~Acceptor() {
 void Acceptor::AcceptConnection() {
   InetAddress *clnt_addr = new InetAddress();
   Socket *clnt_sock = new Socket(sock_->Accept(clnt_addr));
-  printf("new client fd %d! IP: %s Port: %d\n", clnt_sock->GetFd(),
-         clnt_addr->GetIp(), clnt_addr->GetPort());
+  printf("new client fd %d! IP: %s Port: %d\n", clnt_sock->GetFd(), clnt_addr->GetIp(), clnt_addr->GetPort());
   clnt_sock->SetNonBlocking();  // 新接受到的连接设置为非阻塞式
   new_connection_callback_(clnt_sock);
   delete clnt_addr;
 }
 
-void Acceptor::SetNewConnectionCallback(std::function<void(Socket *)> const & callback) {
+void Acceptor::SetNewConnectionCallback(std::function<void(Socket *)> const &callback) {
   new_connection_callback_ = callback;
 }

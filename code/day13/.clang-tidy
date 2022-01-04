@@ -1,0 +1,80 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+#
+# Modified from the Apache Arrow project for the Terrier project.
+#
+---
+Checks:     '
+            bugprone-*,
+            clang-analyzer-*,
+            google-*,
+            modernize-*,
+            performance-*,
+            portability-*,
+            readability-*,
+            -bugprone-too-small-loop-variable,
+            -clang-analyzer-cplusplus.NewDelete,
+            -clang-analyzer-cplusplus.NewDeleteLeaks,
+            -modernize-use-nodiscard,
+            -modernize-avoid-c-arrays,
+            -readability-magic-numbers,
+            -bugprone-branch-clone,
+            -bugprone-signed-char-misuse,
+            -bugprone-unhandled-self-assignment,
+            -clang-diagnostic-implicit-int-float-conversion,
+            -modernize-use-auto,
+            -modernize-use-trailing-return-type,
+            -readability-convert-member-functions-to-static,
+            -readability-make-member-function-const,
+            -readability-qualified-auto,
+            -readability-redundant-access-specifiers,
+            '
+CheckOptions:
+  - { key: readability-identifier-naming.ClassCase,           value: CamelCase  }
+  - { key: readability-identifier-naming.EnumCase,            value: CamelCase  }
+  - { key: readability-identifier-naming.FunctionCase,        value: CamelCase  }
+  - { key: readability-identifier-naming.GlobalConstantCase,  value: UPPER_CASE }
+  - { key: readability-identifier-naming.MemberCase,          value: lower_case }
+  - { key: readability-identifier-naming.MemberSuffix,        value: _          }
+  - { key: readability-identifier-naming.NamespaceCase,       value: lower_case }
+  - { key: readability-identifier-naming.StructCase,          value: CamelCase  }
+  - { key: readability-identifier-naming.UnionCase,           value: CamelCase  }
+  - { key: readability-identifier-naming.VariableCase,        value: lower_case }
+WarningsAsErrors: '*'
+HeaderFilterRegex: '/(src|test)/include'
+AnalyzeTemporaryDtors: true
+
+#### Disabled checks and why: #####
+#
+# -bugprone-too-small-loop-variable,
+#     Complains about uint8_t or uint16_t when the limit on the loop is a container's .size() (size_t).
+#     We usually do this when we know the maximum size of the container though, so propose leaving disabled.
+# -clang-analyzer-cplusplus.NewDelete,
+#     Seems to generate false positives. Suggest relying on ASAN and valgrind for memory stuff.
+# -clang-analyzer-cplusplus.NewDeleteLeaks,
+#     Seems to generate false positives. Suggest relying on ASAN and valgrind for memory stuff.
+# -modernize-use-nodiscard,
+#     New C++17 feature, slightly polarizing. Would clutter codebase.
+# -modernize-avoid-c-arrays,
+#     We use C-style arrays in page.h, type.h and logger.h. They're a little more ergonomic than std::array. Thoughts?
+# -readability-magic-numbers,
+#     Let's not deal with people doing ridiculous things to hack around this. If it bites them, it bites them.
+# -bugprone-branch-clone, -bugprone-signed-char-misuse, -bugprone-unhandled-self-assignment,
+# -clang-diagnostic-implicit-int-float-conversion, -modernize-use-auto, -modernize-use-trailing-return-type,
+# -readability-convert-member-functions-to-static, -readability-make-member-function-const, -readability-qualified-auto,
+# -readability-redundant-access-specifiers
+#    Not available on clang-8. Disable for forward compatibility with students running modern clang versions.

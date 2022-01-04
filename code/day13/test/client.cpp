@@ -3,9 +3,9 @@
 
 #include <iostream>
 
-#include "src/include/Buffer.h"
-#include "src/include/Socket.h"
-#include "src/include/util.h"
+#include "Buffer.h"
+#include "Socket.h"
+#include "util.h"
 
 using namespace std;
 
@@ -21,8 +21,7 @@ int main() {
 
   while (true) {
     sendBuffer->getline();
-    ssize_t write_bytes =
-        write(sockfd, sendBuffer->c_str(), sendBuffer->size());
+    ssize_t write_bytes = write(sockfd, sendBuffer->c_str(), sendBuffer->size());
     if (write_bytes == -1) {
       printf("socket already disconnected, can't write any more!\n");
       break;

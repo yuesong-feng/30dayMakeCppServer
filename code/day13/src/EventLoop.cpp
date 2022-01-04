@@ -4,14 +4,14 @@
  *
  *
  ******************************/
-#include "include/EventLoop.h"
+#include "EventLoop.h"
 
 #include <vector>
 
-#include "include/Channel.h"
-#include "include/Epoll.h"
+#include "Channel.h"
+#include "Epoll.h"
 
-EventLoop::EventLoop() : epoll_(nullptr), quit_(false) { epoll_ = new Epoll(); }
+EventLoop::EventLoop() { epoll_ = new Epoll(); }
 
 EventLoop::~EventLoop() { delete epoll_; }
 

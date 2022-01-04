@@ -4,18 +4,18 @@
  *
  *
  ******************************/
-#include "include/Epoll.h"
+#include "Epoll.h"
 
 #include <unistd.h>
 
 #include <cstring>
 
-#include "include/Channel.h"
-#include "include/util.h"
+#include "Channel.h"
+#include "util.h"
 
 #define MAX_EVENTS 1000
 
-Epoll::Epoll() : epfd_(-1), events_(nullptr) {
+Epoll::Epoll() {
   epfd_ = epoll_create1(0);
   errif(epfd_ == -1, "epoll create error");
   events_ = new epoll_event[MAX_EVENTS];

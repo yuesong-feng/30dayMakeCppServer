@@ -5,8 +5,8 @@
  *
  ******************************/
 #pragma once
-#include "Macros.h"
 #include <string>
+#include "Macros.h"
 
 class Buffer {
  public:
@@ -19,7 +19,7 @@ class Buffer {
   void clear();
   void getline();
   void setBuf(const char *);
+
  private:
   std::string buf;
-
 };
