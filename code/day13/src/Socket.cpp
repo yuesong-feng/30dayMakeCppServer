@@ -1,9 +1,13 @@
-/******************************
- *   author: yuesong-feng
- *   客户端、服务器共用
- *   accept，connect都支持非阻塞式IO，但只是简单处理，如果情况太复杂可能会有意料之外的bug
- *
- ******************************/
+/**
+ * @file Socket.cpp
+ * @author 冯岳松 (yuesong-feng@foxmail.com)
+ * @brief 客户端、服务器共用 accept，connect都支持非阻塞式IO，但只是简单处理，如果情况太复杂可能会有意料之外的bug
+ * @version 0.1
+ * @date 2022-01-04
+ * 
+ * @copyright Copyright (冯岳松) 2022
+ * 
+ */
 #include "Socket.h"
 
 #include <fcntl.h>
