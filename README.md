@@ -41,6 +41,8 @@ C/C++学习的一个难点在于初学时无法做出实际上的东西，没有
 
 [day12-将服务器改写为主从Reactor多线程模式](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day12-将服务器改写为主从Reactor多线程模式.md)
 
+[day13-C++工程化](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day13-C++工程化.md)
+
 [（进行中）macOS支持](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/macOS支持.md)
 
 ### todo list:
@@ -49,19 +51,11 @@ C/C++学习的一个难点在于初学时无法做出实际上的东西，没有
 
 日志系统
 
-拷贝控制
-
-智能指针
-
-性能优化-移动语义
-
 HTTP协议支持
 
 用户特例化
 
 webbench测试
-
-使用CMake
 
 ......
 
