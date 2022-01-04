@@ -30,11 +30,11 @@ set(PINE_CLANG_SEARCH_PATH "/usr/local/bin" "/usr/bin" "/usr/local/opt/llvm/bin"
 ######################################################################################################################
 
 # CTest
-enable_testing()
+# enable_testing()
 
 # clang-format
 if (NOT DEFINED CLANG_FORMAT_BIN)
-    # attempt to find te binary if user did not specify
+    # attempt to find the binary if user did not specify
     find_program(CLANG_FORMAT_BIN
             NAMES clang-format clang-format-8
             HINTS ${PINE_CLANG_SEARCH_PATH})
@@ -53,7 +53,7 @@ if (NOT DEFINED CLANG_TIDY_BIN)
             HINTS ${PINE_CLANG_SEARCH_PATH})
 endif ()
 if ("${CLANG_TIDY_BIN}" STREQUAL "CLANG_TIDY_BIN-NOTFOUND")
-    message(WARNING "Pine/main couldn't find clang-fidy.")
+    message(WARNING "Pine/main couldn't find clang-tidy.")
 else ()
     # Output compile_commands.json
     set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
@@ -63,7 +63,7 @@ endif ()
 # cpplint
 find_program(CPPLINT_BIN
         NAMES cpplint cpplint.py
-        HINTS "${PINE_BUILD_SUPPORT_DIR}")
+        HINTS ${PINE_BUILD_SUPPORT_DIR})
 if ("${CPPLINT_BIN}" STREQUAL "CPPLINT_BIN-NOTFOUND")
     message(WARNING "Pine/main couldn't find cpplint.")
 else ()
@@ -75,7 +75,7 @@ endif ()
 ######################################################################################################################
 
 # Compiler flags.
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -Wextra -pthread")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -Wextra -std=c++17 -pthread")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-parameter -Wno-attributes") #TODO: remove
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -ggdb -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls")
 set(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} -fPIC")
@@ -124,7 +124,7 @@ add_custom_target(format ${PINE_BUILD_SUPPORT_DIR}/run_clang_format.py
         )
     
 # runs clang format and exits with a non-zero exit code if any files need to be reformatted
-add_custom_target(chack-format ${PINE_BUILD_SUPPORT_DIR}/run_clang_format.py
+add_custom_target(check-format ${PINE_BUILD_SUPPORT_DIR}/run_clang_format.py
         ${CLANG_FORMAT_BIN}
         ${PINE_BUILD_SUPPORT_DIR}/clang_format_exclusions.txt
         --source_dirs
@@ -162,4 +162,4 @@ add_custom_target(check-clang-tidy
         -clang-tidy-binary ${CLANG_TIDY_BIN}                              # using our clang-tidy binary
         -p ${CMAKE_BINARY_DIR}                                            # using cmake's generated compile commands
         )
-add_dependencies(check-clang-tidy pine_shared)                    # needs gtest headers, compile_commands.json
+# add_dependencies(check-clang-tidy pine_shared)                    # needs gtest headers, compile_commands.json

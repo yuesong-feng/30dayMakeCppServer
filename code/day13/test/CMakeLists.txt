@@ -31,7 +31,7 @@ foreach (pine_test_source ${PINE_TEST_SOURCES})
     # Set test target properties and dependencies.
     set_target_properties(${pine_test_name}
         PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/test"
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
         COMMAND ${pine_test_name}
     )
 

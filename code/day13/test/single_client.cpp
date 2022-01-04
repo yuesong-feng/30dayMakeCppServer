@@ -27,7 +27,7 @@ int main() {
       break;
     }
     int already_read = 0;
-    char buf[1024];  //这个buf大小无所谓
+    char buf[1024];  // 这个buf大小无所谓
     while (true) {
       bzero(&buf, sizeof(buf));
       ssize_t read_bytes = read(sockfd, buf, sizeof(buf));
