@@ -5,8 +5,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(Pine
-        VERSION 2019.1
-        DESCRIPTION "30dayMakeCppServer"
+        VERSION 0.1
+        DESCRIPTION "pine"
         LANGUAGES C CXX
         )
 
