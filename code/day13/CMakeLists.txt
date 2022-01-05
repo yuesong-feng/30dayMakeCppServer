@@ -5,8 +5,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(Pine
-        VERSION 2019.1
-        DESCRIPTION "30dayMakeCppServer"
+        VERSION 0.1
+        DESCRIPTION "pine"
         LANGUAGES C CXX
         )
 
@@ -133,7 +133,7 @@ add_custom_target(check-format ${PINE_BUILD_SUPPORT_DIR}/run_clang_format.py
         )
 
 ##########################################
-# "make check-lint"
+# "make cpplint"
 ##########################################
 
 file(GLOB_RECURSE PINE_LINT_FILES
@@ -145,7 +145,7 @@ file(GLOB_RECURSE PINE_LINT_FILES
 
 # Balancing act: cpplint.py takes a non-trivial time to launch,
 # so process 12 files per invocation, while still ensuring parallelism
-add_custom_target(check-lint echo '${PINE_LINT_FILES}' | xargs -n12 -P8
+add_custom_target(cpplint echo '${PINE_LINT_FILES}' | xargs -n12 -P8
         ${CPPLINT_BIN}
         --verbose=2 --quiet
         --linelength=120
@@ -153,11 +153,11 @@ add_custom_target(check-lint echo '${PINE_LINT_FILES}' | xargs -n12 -P8
         )
 
 ###########################################################
-# "make check-clang-tidy" target
+# "make clang-tidy" target
 ###########################################################
 # runs clang-tidy and exits with a non-zero exit code if any errors are found.
 # note that clang-tidy automatically looks for a .clang-tidy file in parent directories
-add_custom_target(check-clang-tidy
+add_custom_target(clang-tidy
         ${PINE_BUILD_SUPPORT_DIR}/run_clang_tidy.py                     # run LLVM's clang-tidy script
         -clang-tidy-binary ${CLANG_TIDY_BIN}                              # using our clang-tidy binary
         -p ${CMAKE_BINARY_DIR}                                            # using cmake's generated compile commands

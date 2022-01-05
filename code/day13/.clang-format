@@ -4,5 +4,5 @@ PointerAlignment: Right
 ColumnLimit: 120
 
 # Default for clang-8, changed in later clangs. Set explicitly for forwards
-# compatibility for students with modern clangs
+# compatibility with modern clangs
 IncludeBlocks: Preserve
