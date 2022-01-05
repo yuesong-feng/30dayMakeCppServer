@@ -125,6 +125,6 @@ make single_client
 ```
 生成的可执行文件在`build/test`目录下，这时使用`./test/server`即可运行服务器。
 
-至此，今天的教程已经结束了。今天我们将整个项目工程化，使用了CMake、format、cpplint、clang-tidy，代码的风格变成了google-style，修复了之前版本的许多bug，应用了这些工具给我们提供的现代C++项目建议，性能也提高了。在今天的版本，所有的类也都被生命为不可拷贝、不可移动。clang-tidy提示的按值传参也被修改为引用传参，减少了大量的复制操作。这些工具建议的修改都大大降低了bug发生的几率、提高了服务器性能，虽然还没有用任何的性能测试工具，服务器的处理速度、吞吐量、并发支持度都明显提高了。
+至此，今天的教程已经结束了。今天我们将整个项目工程化，使用了CMake、format、cpplint、clang-tidy，代码的风格变成了google-style，修复了之前版本的许多bug，应用了这些工具给我们提供的现代C++项目建议，性能也提高了。在今天的版本，所有的类也都被声明为不可拷贝、不可移动。clang-tidy提示的按值传参也被修改为引用传参，减少了大量的复制操作。这些工具建议的修改都大大降低了bug发生的几率、提高了服务器性能，虽然还没有用任何的性能测试工具，服务器的处理速度、吞吐量、并发支持度都明显提高了。
 
 完整源代码：[https://github.com/yuesong-feng/30dayMakeCppServer/tree/main/code/day13](https://github.com/yuesong-feng/30dayMakeCppServer/tree/main/code/day13)
