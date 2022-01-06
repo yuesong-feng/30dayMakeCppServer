@@ -54,4 +54,30 @@ void Server::deleteConnection(Socket * sock){
 
 这个版本是一个比较重要的版本，服务器最核心的几个模块都已经抽象出来，Reactor事件驱动大体成型（除了线程池），各个类的生命周期也大体上合适了，一个完整的单线程服务器设计模式已经编码完成了，读者应该完全理解今天的服务器代码后再继续后面的学习。
 
+最后在这里理清一下一些重要的类的设计和调用关系。 server 的启动代码如下：
+```c++
+int main() {
+    EventLoop *loop = new EventLoop();
+    Server *server = new Server(loop);
+    loop->loop();
+    return 0;
+}
+```
+1. `EventLoop *loop = new EventLoop();`
+   - 首先初始化一个 EventLoop 对象，EventLoop 是对 Epoll 的封装，在 EventLoop 的构造函数中会初始化一个 Epoll 对象，在 Epoll 构造函数中会调用 epoll_create()
+      **创建内核事件表(十分重要，事件驱动的核心)**，Epoll 类中也提供了其他 epoll 系列接口(epoll_ctl, epoll_wait)的封装(`updateChannel(Channel *ch)`)；
+2. `Server *server = new Server(loop);`
+   - 接着将上一步初始化好的 EventLoop 对象传递给 Server 类的构造函数，在该构造函数中将这个 EventLoop 对象传递给 Acceptor 的构造函数来初始化 acceptor 对象；
+   - Acceptor 的构造函数中创建了 Socket 对象并进行 bind(), listen()，然后为这个 Socket(在代码中被封装成 Channel) 绑定回调函数(因为这是监听 socket，所以绑定的是接受新连接的 
+     `Acceptor::acceptConnection()` 函数，该函数中调用原生的 `::accept`() 函数；注意这里的回调函数是指 Channel 类中的 `std::function<void()> callback` 成员)并设置监听可读事件后注册到上一步里 EventLoop 对象创建好的内核事件表中；
+   - 接着为 acceptor 对象绑定回调函数(注意这里的回调函数是指 Acceptor 类中的 `std::function<void(Socket*)> newConnectionCallback` 成员)，这个回调函数做的事情是将 accept() 产生的新连接 socket 封装为 Connection 对象，Connection 对象初始化时会将自己绑定到对应的内核事件表中并设置该 socket 被触发后的回调函数(echo 业务)；
+   - **回调函数的绑定在事件驱动中十分重要，因此有必要再次说明 Acceptor 类中回调函数的绑定和调用关系：Acceptor 类中的 `Channel *acceptChannel` 成员中的 
+     `std::function<void()> callback` 成员具体地被绑定为 
+      `Acceptor::acceptConnection()`，而在 `Acceptor::acceptConnection()` 中调用了 Accept 类中的 `std::function<void(Socket*)> 
+      newConnectionCallback` 成员，它具体地被绑定为 `Server::newConnection(Socket *sock)`；**
+3. `loop->loop();`
+   - 至此我们已经完成了所有准备工作：打开监听端口绑定监听 socket，创建原生 epoll 内核事件表并将注册该监听端口上的可读事件，设置该端口被连接时的回调函数(acceptConnection -> accept)
+      。接下来启动 EventLoop 对象中的 loop() 死循环，该循环阻塞在 epoll_wait 上直到对应的内核事件表中的事件发生，事件发生后调用对应 Channel 的回调函数(视不同连接而异)
+      进行相应处理。
+
 完整源代码：[https://github.com/yuesong-feng/30dayMakeCppServer/tree/main/code/day08](https://github.com/yuesong-feng/30dayMakeCppServer/tree/main/code/day08)
