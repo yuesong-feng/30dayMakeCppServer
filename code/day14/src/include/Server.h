@@ -35,6 +35,6 @@ class Server {
   DISALLOW_COPY_AND_MOVE(Server);
 
   void NewConnection(Socket *sock);
-  void DeleteConnection(int sockfd);
+  void DeleteConnection(Socket *sock);
   void OnConnect(std::function<void(Connection *)> fn);
 };

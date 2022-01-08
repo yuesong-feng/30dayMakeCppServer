@@ -1,19 +1,21 @@
 #include "Server.h"
+#include <iostream>
 #include "Buffer.h"
 #include "Connection.h"
 #include "EventLoop.h"
-#include <signal.h>
-#include <iostream>
 
 int main() {
   EventLoop *loop = new EventLoop();
   Server *server = new Server(loop);
   server->OnConnect([](Connection *conn) {
     conn->Recv();
-    if(conn == nullptr){
-      printf("here\n");
+    if (conn->GetState() == Connection::State::Closed) {
+      conn->Close();
+      return;
     }
-    conn->send_buffer_->SetBuf("hello client");
+    std::cout << conn->GetReadBuffer()->ToStr() << std::endl;
+
+    conn->SetSendBuffer(conn->GetReadBuffer()->ToStr());
     conn->Send();
   });
 

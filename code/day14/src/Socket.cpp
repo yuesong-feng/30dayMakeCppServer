@@ -40,13 +40,13 @@ void Socket::Bind(InetAddress *addr) {
 
 void Socket::Listen() { ErrorIf(::listen(fd_, SOMAXCONN) == -1, "socket listen error"); }
 void Socket::SetNonBlocking() { fcntl(fd_, F_SETFL, fcntl(fd_, F_GETFL) | O_NONBLOCK); }
-
+bool Socket::IsNonBlocking() { return (fcntl(fd_, F_GETFL) & O_NONBLOCK) != 0; }
 int Socket::Accept(InetAddress *addr) {
   // for server socket
   int clnt_sockfd = -1;
   struct sockaddr_in tmp_addr {};
   socklen_t addr_len = sizeof(tmp_addr);
-  if (fcntl(fd_, F_GETFL) & O_NONBLOCK) {
+  if (IsNonBlocking()) {
     while (true) {
       clnt_sockfd = accept(fd_, (sockaddr *)&tmp_addr, &addr_len);
       if (clnt_sockfd == -1 && ((errno == EAGAIN) || (errno == EWOULDBLOCK))) {

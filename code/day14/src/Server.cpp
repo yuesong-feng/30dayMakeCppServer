@@ -47,13 +47,14 @@ void Server::NewConnection(Socket *sock) {
   ErrorIf(sock->GetFd() == -1, "new connection error");
   uint64_t random = sock->GetFd() % sub_reactors_.size();
   Connection *conn = new Connection(sub_reactors_[random], sock);
-  std::function<void(int)> cb = std::bind(&Server::DeleteConnection, this, std::placeholders::_1);
+  std::function<void(Socket *)> cb = std::bind(&Server::DeleteConnection, this, std::placeholders::_1);
   conn->SetDeleteConnectionCallback(cb);
   conn->SetOnConnectCallback(on_connect_callback_);
   connections_[sock->GetFd()] = conn;
 }
 
-void Server::DeleteConnection(int sockfd) {
+void Server::DeleteConnection(Socket *sock) {
+  int sockfd = sock->GetFd();
   auto it = connections_.find(sockfd);
   if (it != connections_.end()) {
     Connection *conn = connections_[sockfd];

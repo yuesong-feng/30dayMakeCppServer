@@ -48,5 +48,6 @@ class Socket {
   void Connect(InetAddress *addr);
 
   void SetNonBlocking();
+  bool IsNonBlocking();
   int GetFd();
 };
