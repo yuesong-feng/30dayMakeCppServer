@@ -46,6 +46,7 @@ class Socket {
   int Accept(InetAddress *addr);
 
   void Connect(InetAddress *addr);
+  void Connect(const char *ip, uint16_t port);
 
   void SetNonBlocking();
   bool IsNonBlocking();

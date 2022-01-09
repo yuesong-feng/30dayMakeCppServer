@@ -30,15 +30,20 @@ class Connection {
   ~Connection();
   DISALLOW_COPY_AND_MOVE(Connection);
 
-  void Recv();
+  void Read();
+  void Write();
+
   void SetDeleteConnectionCallback(std::function<void(Socket *)> const &callback);
   void SetOnConnectCallback(std::function<void(Connection *)> const &callback);
-  void Send();
   State GetState();
   void Close();
   void SetSendBuffer(const char *str);
   Buffer *GetReadBuffer();
+  const char *ReadBuffer();
   Buffer *GetSendBuffer();
+  const char *SendBuffer();
+  void GetlineSendBuffer();
+  Socket *GetSocket();
 
   void OnConnect(std::function<void()> fn);
 
@@ -52,4 +57,9 @@ class Connection {
   std::function<void(Socket *)> delete_connectioin_callback_;
 
   std::function<void(Connection *)> on_connect_callback_;
+
+  void ReadNonBlocking();
+  void WriteNonBlocking();
+  void ReadBlocking();
+  void WriteBlocking();
 };

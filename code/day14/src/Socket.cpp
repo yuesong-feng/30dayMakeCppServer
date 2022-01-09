@@ -101,6 +101,12 @@ void Socket::Connect(InetAddress *addr) {
   }
 }
 
+void Socket::Connect(const char *ip, uint16_t port){
+  InetAddress *addr = new InetAddress(ip, port);
+  Connect(addr);
+  delete addr;
+}
+
 int Socket::GetFd() { return fd_; }
 
 InetAddress::InetAddress() = default;

@@ -3,20 +3,20 @@
 #include "Buffer.h"
 #include "Connection.h"
 #include "EventLoop.h"
+#include "Socket.h"
 
 int main() {
   EventLoop *loop = new EventLoop();
   Server *server = new Server(loop);
   server->OnConnect([](Connection *conn) {
-    conn->Recv();
+    conn->Read();
     if (conn->GetState() == Connection::State::Closed) {
       conn->Close();
       return;
     }
-    std::cout << conn->GetReadBuffer()->ToStr() << std::endl;
-
-    conn->SetSendBuffer(conn->GetReadBuffer()->ToStr());
-    conn->Send();
+    std::cout << "Message from client " << conn->GetSocket()->GetFd() << ": " << conn->ReadBuffer() << std::endl;
+    conn->SetSendBuffer(conn->ReadBuffer());
+    conn->Write();
   });
 
   loop->Loop();
