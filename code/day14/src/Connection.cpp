@@ -136,6 +136,7 @@ void Connection::ReadBlocking() {
  *
  */
 void Connection::WriteBlocking() {
+  // 没有处理send_buffer_数据大于TCP写缓冲区，的情况，可能会有bug
   int sockfd = sock_->GetFd();
   ssize_t bytes_write = write(sockfd, send_buffer_->ToStr(), send_buffer_->Size());
   if (bytes_write == -1) {
