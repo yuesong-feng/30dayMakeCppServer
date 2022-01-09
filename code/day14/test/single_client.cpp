@@ -1,6 +1,6 @@
-#include <iostream>
-#include <Socket.h>
 #include <Connection.h>
+#include <Socket.h>
+#include <iostream>
 
 int main() {
   Socket *sock = new Socket();

@@ -96,9 +96,11 @@ void Connection::WriteNonBlocking() {
     if (bytes_write == -1 && errno == EINTR) {
       printf("continue writing\n");
       continue;
-    } else if (bytes_write == -1 && errno == EAGAIN) {
+    }
+    if (bytes_write == -1 && errno == EAGAIN) {
       break;
-    } else if (bytes_write == -1) {
+    }
+    if (bytes_write == -1) {
       printf("Other error on client fd %d\n", sockfd);
       state_ = State::Closed;
       break;
@@ -109,11 +111,11 @@ void Connection::WriteNonBlocking() {
 
 /**
  * @brief Never used by server, only for client
- * 
+ *
  */
 void Connection::ReadBlocking() {
   int sockfd = sock_->GetFd();
-  unsigned int rcv_size;
+  unsigned int rcv_size = 0;
   socklen_t len = sizeof(rcv_size);
   getsockopt(sockfd, SOL_SOCKET, SO_RCVBUF, &rcv_size, &len);
   char buf[rcv_size];
@@ -131,7 +133,7 @@ void Connection::ReadBlocking() {
 
 /**
  * @brief Never used by server, only for client
- * 
+ *
  */
 void Connection::WriteBlocking() {
   int sockfd = sock_->GetFd();
@@ -159,10 +161,6 @@ void Connection::SetOnConnectCallback(std::function<void(Connection *)> const &c
   channel_->SetReadCallback([this]() { on_connect_callback_(this); });
 }
 
-void Connection::GetlineSendBuffer(){
-  send_buffer_->Getline();
-}
+void Connection::GetlineSendBuffer() { send_buffer_->Getline(); }
 
-Socket *Connection::GetSocket(){
-  return sock_;
-}
+Socket *Connection::GetSocket() { return sock_; }
