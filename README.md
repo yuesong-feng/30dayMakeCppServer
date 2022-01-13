@@ -47,7 +47,7 @@ C/C++学习的一个难点在于初学时无法做出实际上的东西，没有
 
 [day14-支持业务逻辑自定义、完善Connection类](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day14-支持业务逻辑自定义、完善Connection类.md)
 
-[（进行中）macOS支持](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/macOS支持.md)
+[day15-macOS、FreeBSD支持](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day15-macOS、FreeBSD支持.md)
 
 ### todo list:
 
