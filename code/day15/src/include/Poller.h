@@ -12,8 +12,6 @@
 #include <vector>
 #include "Macros.h"
 
-#define OS_MACOS
-
 #ifdef OS_LINUX
 #include <sys/epoll.h>
 #endif
