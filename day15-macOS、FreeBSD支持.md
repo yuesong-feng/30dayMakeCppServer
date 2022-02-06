@@ -1,12 +1,79 @@
 # day15-macOS、FreeBSD支持
 
-作为程序员，使用MacBook电脑作为开发机很常见，本质和Linux几乎没有区别。本教程的EventLoop中使用Linux系统支持的epoll，然而macOS里并没有epoll，取而代之的是FreeBSD的kqueue，功能和使用都和epoll很相似。
+作为程序员，使用MacBook电脑作为开发机很常见，本质和Linux几乎没有区别。本教程的EventLoop中使用Linux系统支持的epoll，然而macOS里并没有epoll，取而代之的是FreeBSD的kqueue，功能和使用都和epoll很相似。Windows系统使用WSL可以完美编译运行源代码，但MacBook则需要Docker、云服务器、或是虚拟机，很麻烦。在今天，我们将支持使用kqueue作为`EventLoop`类的Poller，使网络库可以在macOS等FreeBSD系统上原生运行。
 
-Windows系统使用WSL可以完美编译运行源代码，但MacBook则需要Docker、云服务器、或是虚拟机，很麻烦。经过尝试，使用kqueue确实可以实现相似的功能，但要无缝衔接、还有很多实现上的细节。
+在网络库已有的类当中，`Socket`和`Epoll`类是最底层的、需要和操作系统打交道，而上一层的`EventLoop`类只是使用`Epoll`提供的接口，而不关心`Epoll`类的底层实现。所以在考虑支持不同的操作系统时，只应该改变最底层的`Epoll`类，而不需要改动上层的`EventLoop`类。至于分发`fd`的`Channel`类，可以自定义epoll和kqueue的读、写、ET模式等事件，在`Channel`类中只需要注册好我们自定义的事件，然后在`Poller`类中将事件注册到epoll或kqueue。
+```cpp
+const int Channel::READ_EVENT = 1;
+const int Channel::WRITE_EVENT = 2;
+const int Channel::ET = 4;
+```
+需要注意`Channel`的用户自定义事件必须是1、2、4、8、16等十进制数，因为在`Poller`中判断、更新事件时需要用到按位与、按位或等操作，这里实际上是将16位二进制数的每一位用作标志位。如果这里理解有困难，可以先学一遍《深入理解计算机系统（第三版）》.
 
-如果你使用MacBook学习本教程，请在issue里留言，人数多将会考虑支持原生macOS系统。当前最方便的做法是使用Docker安装一个Ubuntu镜像，然后编译源代码。
+在`Poller`类中使用宏定义的形式判断当前操作系统，从而使用不同的代码:
+```cpp
+#ifdef OS_LINUX
+// linux平台的代码
+#endif
 
-支持方式：将kqueue作为底层封装为epoll，模拟Linux的epoll系统调用，学习、使用、功能和都和本教程使用的Linux epoll相同。
+#ifdef OS_MACOS
+// FreeBSD平台的代码
+#endif
+```
+操作系统宏在CMakeLists.txt中定义：
+```
+if (CMAKE_SYSTEM_NAME MATCHES "Darwin")
+    message(STATUS "Platform: macOS")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DOS_MACOS")
+elseif (CMAKE_SYSTEM_NAME MATCHES "Linux")
+    message(STATUS "Platform: Linux")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DOS_LINUX")
+endif()
+```
+这样就可以在不同的操作系统使用不同的代码。如注册/更新`Channel`，在Linux系统下会编译以下代码：
+```cpp
+void Poller::UpdateChannel(Channel *ch) {
+  int sockfd = ch->GetSocket()->GetFd();
+  struct epoll_event ev {};
+  ev.data.ptr = ch;
+  if (ch->GetListenEvents() & Channel::READ_EVENT) {
+    ev.events |= EPOLLIN | EPOLLPRI;
+  }
+  if (ch->GetListenEvents() & Channel::WRITE_EVENT) {
+    ev.events |= EPOLLOUT;
+  }
+  if (ch->GetListenEvents() & Channel::ET) {
+    ev.events |= EPOLLET;
+  }
+  if (!ch->GetExist()) {
+    ErrorIf(epoll_ctl(fd_, EPOLL_CTL_ADD, sockfd, &ev) == -1, "epoll add error");
+    ch->SetExist();
+  } else {
+    ErrorIf(epoll_ctl(fd_, EPOLL_CTL_MOD, sockfd, &ev) == -1, "epoll modify error");
+  }
+}
+```
+而在macOS系统下会编译以下代码：
+```cpp
+void Poller::UpdateChannel(Channel *ch) {
+  struct kevent ev[2];
+  memset(ev, 0, sizeof(*ev) * 2);
+  int n = 0;
+  int fd = ch->GetSocket()->GetFd();
+  int op = EV_ADD;
+  if (ch->GetListenEvents() & ch->ET) {
+    op |= EV_CLEAR;
+  }
+  if (ch->GetListenEvents() & ch->READ_EVENT) {
+    EV_SET(&ev[n++], fd, EVFILT_READ, op, 0, 0, ch);
+  }
+  if (ch->GetListenEvents() & ch->WRITE_EVENT) {
+    EV_SET(&ev[n++], fd, EVFILT_WRITE, op, 0, 0, ch);
+  }
+  int r = kevent(fd_, ev, n, NULL, 0, NULL);
+  ErrorIf(r == -1, "kqueue add event error");
+}
+```
+在今天的教程中，我们支持了MacOS、FreeBSD平台。在代码中去掉了`Epoll`类，改为通用的`Poller`，在不同的平台会自适应地编译不同的代码。同时我们将`Channel`类和操作系统脱离开来，通过用户自定义事件来表示监听、发生的事件。现在在Linux和macOS系统中，网络库都可以原生编译运行。但具体功能可能会根据操作系统的不同有细微差异，如在macOS平台下的并发支持度明显没有Linux平台高，在后面的开发中会不断完善。
 
-
-支持了macOS
+完整源代码：[https://github.com/yuesong-feng/30dayMakeCppServer/tree/main/code/day15](https://github.com/yuesong-feng/30dayMakeCppServer/tree/main/code/day15)
