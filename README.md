@@ -1,6 +1,6 @@
 # 30天自制C++服务器
 
-## ***After writing C++ for a long time, I gradually got sick of its defects. Finnaly, I decided to give up C++ and embrace C language. Hopefully, I may rewrite this library with C.***
+### ***After writing C++ for a long time, I gradually got sick of its defects. Finnaly, I decided to give up C++ and embrace C language. Hopefully, I may rewrite this library with C.***
 
 教程的配套网络库：[pine](https://github.com/yuesong-feng/pine)，star and fork!
 
