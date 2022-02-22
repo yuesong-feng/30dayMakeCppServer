@@ -1,5 +1,7 @@
 # 30天自制C++服务器
 
+## ***After writing C++ for a long time, I gradually got sick of its defects. Finnaly, I decided to give up C++ and embrace C language. Hopefully, I may rewrite this library with C.***
+
 教程的配套网络库：[pine](https://github.com/yuesong-feng/pine)，star and fork!
 
 先说结论：不管使用什么语言，一切后台开发的根基，是面向Linux的C/C++服务器开发。
