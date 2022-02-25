@@ -42,7 +42,7 @@ int main() {
             }
         }
     }
-    delete serv_addr;
+    delete serv_sock;
     delete serv_addr;
     return 0;
 }
