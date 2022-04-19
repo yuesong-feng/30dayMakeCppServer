@@ -35,7 +35,7 @@ Poller::~Poller() {
   delete[] events_;
 }
 
-std::vector<Vhannel *> Poller::Poll(int timeout) {
+std::vector<Channel *> Poller::Poll(int timeout) {
   std::vector<Channel *> active_channels;
   int nfds = epoll_wait(fd_, events_, MAX_EVENTS, timeout);
   ErrorIf(nfds == -1, "epoll wait error");
