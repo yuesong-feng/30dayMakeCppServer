@@ -1,6 +1,9 @@
 # 30天自制C++服务器
 
+## 请到这里观看：[csblog](https://yuesong-feng.github.io)
+
 ### 攒够1000星就继续更完剩下的一半😄
+
 教程的配套网络库：[pine](https://github.com/yuesong-feng/pine)，star and fork!
 
 先说结论：不管使用什么语言，一切后台开发的根基，是面向Linux的C/C++服务器开发。
@@ -10,6 +13,7 @@
 本教程模仿《30天自制操作系统》，面向零经验的新手，教你在30天内入门Linux服务器开发。本教程更偏向实践，将会把重点放在如何写代码上，而不会花太多的篇幅讲解背后的计算机基础原理，涉及到的地方会给出相应书籍的具体章节，但这并不代表这些理论知识不重要，事实上理论基础相当重要，没有理论的支撑，构建出一个高性能服务器是无稽之谈。
 
 本教程希望读者：
+
 - 熟悉C/C++语言
 - 熟悉计算机网络基础，如TCP协议、socket原理等
 - 了解基本的操作系统基础概念，如进程、线程、内存资源、系统调用等
@@ -20,37 +24,37 @@ C/C++学习的一个难点在于初学时无法做出实际上的东西，没有
 
 在code文件夹里有每一天的代码文件夹，进入该文件夹，使用`make`命令编译，会生成两个可执行文件，输入命令`./server`就能看到今天的学习成果！然后新建一个Terminal，然后输入`./client`运行客户端，与服务器交互。
 
-[day01-从一个最简单的socket开始](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day01-从一个最简单的socket开始.md)
+[day01-从一个最简单的socket开始](https://yuesong-feng.github.io/30dayMakeCppServer/day01-从一个最简单的socket开始.html)
 
-[day02-不要放过任何一个错误](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day02-不要放过任何一个错误.md)
+[day02-不要放过任何一个错误](https://yuesong-feng.github.io/30dayMakeCppServer/day02-不要放过任何一个错误.html)
 
-[day03-高并发还得用epoll](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day03-高并发还得用epoll.md)
+[day03-高并发还得用epoll](https://yuesong-feng.github.io/30dayMakeCppServer/day03-高并发还得用epoll.html)
 
-[day04-来看看我们的第一个类](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day04-来看看我们的第一个类.md)
+[day04-来看看我们的第一个类](https://yuesong-feng.github.io/30dayMakeCppServer/day04-来看看我们的第一个类.html)
 
-[day05-epoll高级用法-Channel登场](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day05-epoll高级用法-Channel登场.md)
+[day05-epoll高级用法-Channel登场](https://yuesong-feng.github.io/30dayMakeCppServer/day05-epoll高级用法-Channel登场.html)
 
-[day06-服务器与事件驱动核心类登场](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day06-服务器与事件驱动核心类登场.md)
+[day06-服务器与事件驱动核心类登场](https://yuesong-feng.github.io/30dayMakeCppServer/day06-服务器与事件驱动核心类登场.html)
 
-[day07-为我们的服务器添加一个Acceptor](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day07-为我们的服务器添加一个Acceptor.md)
+[day07-为我们的服务器添加一个Acceptor](https://yuesong-feng.github.io/30dayMakeCppServer/day07-为我们的服务器添加一个Acceptor.html)
 
-[day08-一切皆是类，连TCP连接也不例外](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day08-一切皆是类，连TCP连接也不例外.md)
+[day08-一切皆是类，连TCP连接也不例外](https://yuesong-feng.github.io/30dayMakeCppServer/day08-一切皆是类，连TCP连接也不例外.html)
 
-[day09-缓冲区-大作用](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day09-缓冲区-大作用.md)
+[day09-缓冲区-大作用](https://yuesong-feng.github.io/30dayMakeCppServer/day09-缓冲区-大作用.html)
 
-[day10-加入线程池到服务器](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day10-加入线程池到服务器.md)
+[day10-加入线程池到服务器](https://yuesong-feng.github.io/30dayMakeCppServer/day10-加入线程池到服务器.html)
 
-[day11-完善线程池，服务器成型，写测试程序](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day11-完善线程池，加入一个简单的测试程序.md)
+[day11-完善线程池，服务器成型，写测试程序](https://yuesong-feng.github.io/30dayMakeCppServer/day11-完善线程池，加入一个简单的测试程序.html)
 
-[day12-将服务器改写为主从Reactor多线程模式](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day12-将服务器改写为主从Reactor多线程模式.md)
+[day12-将服务器改写为主从Reactor多线程模式](https://yuesong-feng.github.io/30dayMakeCppServer/day12-将服务器改写为主从Reactor多线程模式.html)
 
-[day13-C++工程化、代码分析、性能优化](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day13-C++工程化、代码分析、性能优化.md)
+[day13-C++工程化、代码分析、性能优化](https://yuesong-feng.github.io/30dayMakeCppServer/day13-C++工程化、代码分析、性能优化.html)
 
-[day14-支持业务逻辑自定义、完善Connection类](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day14-支持业务逻辑自定义、完善Connection类.md)
+[day14-支持业务逻辑自定义、完善Connection类](https://yuesong-feng.github.io/30dayMakeCppServer/day14-支持业务逻辑自定义、完善Connection类.html)
 
-[day15-macOS、FreeBSD支持](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day15-macOS、FreeBSD支持.md)
+[day15-macOS、FreeBSD支持](https://yuesong-feng.github.io/30dayMakeCppServer/day15-macOS、FreeBSD支持.html)
 
-### todo list:
+### todo list
 
 定时器
 
