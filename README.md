@@ -1,6 +1,6 @@
 # 30天自制C++服务器
 
-## 如访问慢，可以到这里观看：[csblog](https://yuesong-feng.github.io)
+## 如访问慢，可以到这里观看：[csblog](https://csblog.cc)
 
 教程的配套网络库：[pine](https://github.com/yuesong-feng/pine)，star and fork!
 
