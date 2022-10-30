@@ -37,9 +37,10 @@ Acceptor::~Acceptor() {
 void Acceptor::AcceptConnection() {
   InetAddress *clnt_addr = new InetAddress();
   Socket *clnt_sock = new Socket(sock_->Accept(clnt_addr));
-  printf("new client fd %d! IP: %s Port: %d\n", clnt_sock->GetFd(), clnt_addr->GetIp(), clnt_addr->GetPort());
   clnt_sock->SetNonBlocking();  // 新接受到的连接设置为非阻塞式
-  new_connection_callback_(clnt_sock);
+  if(new_connection_callback_){
+    new_connection_callback_(clnt_sock);
+  }
   delete clnt_addr;
 }
 

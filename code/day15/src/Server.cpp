@@ -9,19 +9,20 @@
  *
  */
 #include "Server.h"
-
 #include <unistd.h>
-
 #include <functional>
-
 #include "Acceptor.h"
 #include "Connection.h"
 #include "EventLoop.h"
 #include "Socket.h"
 #include "ThreadPool.h"
 #include "util.h"
+#include "Exception.h"
 
 Server::Server(EventLoop *loop) : main_reactor_(loop), acceptor_(nullptr), thread_pool_(nullptr) {
+  if(main_reactor_ == nullptr){
+    throw Exception(ExceptionType::INVALID, "main reactor can't be nullptr!");
+  }
   acceptor_ = new Acceptor(main_reactor_);
   std::function<void(Socket *)> cb = std::bind(&Server::NewConnection, this, std::placeholders::_1);
   acceptor_->SetNewConnectionCallback(cb);
@@ -39,18 +40,27 @@ Server::Server(EventLoop *loop) : main_reactor_(loop), acceptor_(nullptr), threa
 }
 
 Server::~Server() {
+  for(EventLoop *each : sub_reactors_){
+    delete each;
+  }
   delete acceptor_;
   delete thread_pool_;
 }
 
 void Server::NewConnection(Socket *sock) {
-  ErrorIf(sock->GetFd() == -1, "new connection error");
+  if(sock->GetFd() == -1){
+    throw Exception(ExceptionType::INVALID_SOCKET, "New Connection error, invalid client socket!");
+  }
+  // ErrorIf(sock->GetFd() == -1, "new connection error");
   uint64_t random = sock->GetFd() % sub_reactors_.size();
   Connection *conn = new Connection(sub_reactors_[random], sock);
   std::function<void(Socket *)> cb = std::bind(&Server::DeleteConnection, this, std::placeholders::_1);
   conn->SetDeleteConnectionCallback(cb);
-  conn->SetOnConnectCallback(on_connect_callback_);
+  // conn->SetOnConnectCallback(on_connect_callback_);
+  conn->SetOnMessageCallback(on_message_callback_);
   connections_[sock->GetFd()] = conn;
+  if(new_connect_callback_)
+    new_connect_callback_(conn);
 }
 
 void Server::DeleteConnection(Socket *sock) {
@@ -65,3 +75,7 @@ void Server::DeleteConnection(Socket *sock) {
 }
 
 void Server::OnConnect(std::function<void(Connection *)> fn) { on_connect_callback_ = std::move(fn); }
+
+void Server::OnMessage(std::function<void(Connection *)> fn) { on_message_callback_ = std::move(fn); }
+
+void Server::NewConnect(std::function<void(Connection *)> fn) { new_connect_callback_ = std::move(fn); }

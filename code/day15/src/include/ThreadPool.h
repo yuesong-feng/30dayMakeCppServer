@@ -35,7 +35,7 @@ class ThreadPool {
   std::queue<std::function<void()>> tasks_;
   std::mutex queue_mutex_;
   std::condition_variable condition_variable_;
-  bool stop_{false};
+  std::atomic<bool> stop_{false};
 };
 
 // 不能放在cpp文件，C++编译器不支持模版的分离编译

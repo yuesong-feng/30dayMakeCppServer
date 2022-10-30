@@ -74,6 +74,22 @@ void Poller::UpdateChannel(Channel *ch) {
   ErrorIf(r == -1, "kqueue add event error");
 }
 ```
-在今天的教程中，我们支持了MacOS、FreeBSD平台。在代码中去掉了`Epoll`类，改为通用的`Poller`，在不同的平台会自适应地编译不同的代码。同时我们将`Channel`类和操作系统脱离开来，通过用户自定义事件来表示监听、发生的事件。现在在Linux和macOS系统中，网络库都可以原生编译运行。但具体功能可能会根据操作系统的不同有细微差异，如在macOS平台下的并发支持度明显没有Linux平台高，在后面的开发中会不断完善。
+
+在之前的教程中，我们使`Connection`类以`OnConnect`回调函数的方式初步支持了业务逻辑自定义，自定义的业务逻辑是从服务器端可读事件触发后开始进入，所以需要自己处理读取数据的逻辑。这显然不合理，怎样事件触发、读取数据、异常处理等流程应该是网络库提供的基本功能，用户只应当关注怎样处理业务即可，所以业务逻辑的进入点应该是服务器读取完客户端的所有数据之后。这是，客户端传来的请求在`Connection`类的读缓冲区里，我们只需要根据请求来分发、处理业务即可。
+
+通过设置`OnMessage`回调函数来自定义自己的业务逻辑，在服务器完全接收到客户端的数据之后，该函数触发。以下是一个echo服务器的业务逻辑：
+
+```cpp
+server->OnMessage([](Connection *conn){
+  std::cout << "Message from client " << conn->ReadBuffer() << std::endl;
+  if(conn->GetState() == Connection::State::Connected){
+    conn->Send(conn->ReadBuffer());
+  }
+});
+```
+
+在进入该函数前，服务器已经完成了接受客户端数据并保存在读缓冲区里，业务逻辑只需要将读缓冲区里的数据发送回即可，这样的设计更加符合服务器的功能准则与设计准则。
+
+在今天的教程中，我们支持了MacOS、FreeBSD平台。在代码中去掉了`Epoll`类，改为通用的`Poller`，在不同的平台会自适应地编译不同的代码。同时我们将`Channel`类和操作系统脱离开来，通过用户自定义事件来表示监听、发生的事件。现在在Linux和macOS系统中，网络库都可以原生编译运行。但具体功能可能会根据操作系统的不同有细微差异，如在macOS平台下的并发支持度明显没有Linux平台高，在后面的开发中会不断完善。我们也完善了业务逻辑自定义，进一步简化了服务器编程、隐藏了更多细节，使用者只需要完全关注自己核心的业务逻辑。
 
 完整源代码：[https://github.com/yuesong-feng/30dayMakeCppServer/tree/main/code/day15](https://github.com/yuesong-feng/30dayMakeCppServer/tree/main/code/day15)

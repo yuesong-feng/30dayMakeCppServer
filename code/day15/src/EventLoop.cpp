@@ -17,7 +17,10 @@
 
 EventLoop::EventLoop() { poller_ = new Poller(); }
 
-EventLoop::~EventLoop() { delete poller_; }
+EventLoop::~EventLoop() {
+  Quit();
+  delete poller_;
+}
 
 void EventLoop::Loop() {
   while (!quit_) {
@@ -28,6 +31,7 @@ void EventLoop::Loop() {
     }
   }
 }
+void EventLoop::Quit() { quit_ = true; }
 
 void EventLoop::UpdateChannel(Channel *ch) { poller_->UpdateChannel(ch); }
 void EventLoop::DeleteChannel(Channel *ch) { poller_->DeleteChannel(ch); }
