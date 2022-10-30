@@ -1,4 +1,4 @@
-# day15-macOS、FreeBSD支持
+# day15-macOS支持、完善业务逻辑自定义
 
 作为程序员，使用MacBook电脑作为开发机很常见，本质和Linux几乎没有区别。本教程的EventLoop中使用Linux系统支持的epoll，然而macOS里并没有epoll，取而代之的是FreeBSD的kqueue，功能和使用都和epoll很相似。Windows系统使用WSL可以完美编译运行源代码，但MacBook则需要Docker、云服务器、或是虚拟机，很麻烦。在今天，我们将支持使用kqueue作为`EventLoop`类的Poller，使网络库可以在macOS等FreeBSD系统上原生运行。
 
