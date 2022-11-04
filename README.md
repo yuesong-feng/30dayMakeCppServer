@@ -54,6 +54,7 @@ C/C++学习的一个难点在于初学时无法做出实际上的东西，没有
 
 [day15-macOS支持、完善业务逻辑自定义](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day15-macOS支持、完善业务逻辑自定义.md)
 
+[day16-重构服务器、使用智能指针](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day16-重构核心库、使用智能指针.md)
 
 ### todo list
 
