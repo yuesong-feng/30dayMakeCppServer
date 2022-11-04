@@ -1,0 +1,60 @@
+---
+Checks:     '
+            bugprone-*,
+            -bugprone-exception-escape,
+
+            clang-analyzer-*,
+
+            concurrency-*,
+
+            cppcoreguidelines-*,
+            -cppcoreguidelines-macro-usage,
+            -cppcoreguidelines-owning-memory,
+            -cppcoreguidelines-avoid-magic-numbers,
+            -cppcoreguidelines-pro-type-vararg,
+            -cppcoreguidelines-avoid-c-arrays,
+            -cppcoreguidelines-pro-bounds-pointer-arithmetic,
+            -cppcoreguidelines-pro-bounds-array-to-pointer-decay,
+            -cppcoreguidelines-pro-bounds-pointer-arithmetic,
+            -cppcoreguidelines-pro-type-cstyle-cast,
+
+            google-*,
+            -google-readability-casting,
+
+            hicpp-*,
+            -hicpp-vararg,
+            -hicpp-use-auto,
+            -hicpp-no-array-decay,
+            -hicpp-avoid-c-arrays,
+            -hicpp-signed-bitwise,
+
+            modernize-*,
+            -modernize-use-trailing-return-type,
+            -modernize-avoid-bind,
+            -modernize-avoid-c-arrays,
+            -modernize-use-auto,
+
+            performance-*,
+
+            portability-*,
+
+            readability-*,
+            -readability-magic-numbers,
+            -readability-make-member-function-const,
+            -readability-implicit-bool-conversion,
+            
+            '
+CheckOptions:
+  - { key: readability-identifier-naming.ClassCase,           value: CamelCase  }
+  - { key: readability-identifier-naming.EnumCase,            value: CamelCase  }
+  - { key: readability-identifier-naming.FunctionCase,        value: CamelCase  }
+  - { key: readability-identifier-naming.GlobalConstantCase,  value: UPPER_CASE }
+  - { key: readability-identifier-naming.MemberCase,          value: lower_case }
+  - { key: readability-identifier-naming.MemberSuffix,        value: _          }
+  - { key: readability-identifier-naming.NamespaceCase,       value: lower_case }
+  - { key: readability-identifier-naming.StructCase,          value: CamelCase  }
+  - { key: readability-identifier-naming.UnionCase,           value: CamelCase  }
+  - { key: readability-identifier-naming.VariableCase,        value: lower_case }
+WarningsAsErrors: '*'
+HeaderFilterRegex: '/(src|test)/include'
+AnalyzeTemporaryDtors: true

@@ -18,5 +18,54 @@
 
 所以在重构后的代码中，类自己所拥有的资源用`std::unique_ptr<>`来管理，这样在类被销毁的时候，将会自动释放堆内存里的相关资源。而对不属于自己、但会使用的资源，采用`std::unique_ptr<> &`或`std::shared_ptr<>`来管理会十分麻烦、不易与阅读并且可能对新手带来一系列问题，所以我们参考Chromium的方式，依旧采用裸指针来管理。通过这样的设计，不管程序发生什么异常，资源在离开作用域的时候都会释放其使用的堆内存空间，避免了内存泄漏等诸多内存问题。
 
-重构的第三个重点就是错误、异常的处理。在目前的程序中，由于是开发阶段，我们尽可能暴露所有的异常情况，并使用assert、exit等方式使程序在发生错误时直接崩溃，但这样会使程序不够健壮。程序中有些错误是不可恢复的，遇见此类错误可以直接退出。但对于大型项目、尤其是线上远行的网络服务器、数据库等不断提供服务的程序来说，可靠性是十分重要的一个因素，所以绝大部分错误都是可恢复的。如创建socket失败可能是文件描述符超过操作系统限制，稍后再次尝试即可。打开文件失败可能是文件不存在或没有权限，此时只需创建文件或赋予权限即可。所以在底层的编码上，对于部分错误需要进行可恢复处理，避免一个模块或资源发生的小错误影响整个服务器的运行。
+重构的第三个重点就是错误、异常的处理。在目前的程序中，由于是开发阶段，我们尽可能暴露所有的异常情况，并使用assert、exit等方式使程序在发生错误时直接崩溃，但这样会使程序不够健壮。程序中有些错误是不可恢复的，遇见此类错误可以直接退出。但对于大型项目、尤其是线上远行的网络服务器、数据库等不断提供服务的程序来说，可靠性是十分重要的一个因素，所以绝大部分错误都是可恢复的。如创建socket失败可能是文件描述符超过操作系统限制，稍后再次尝试即可。监听socket失败可能是端口被占用，切换端口或提示并等待用户处理即可。打开文件失败可能是文件不存在或没有权限，此时只需创建文件或赋予权限即可。所以在底层的编码上，对于部分错误需要进行可恢复处理，避免一个模块或资源发生的小错误影响整个服务器的运行。
 
+以下是重构后`TcpServer`类的定义：
+```cpp
+class TcpServer {
+ public:
+
+    ......
+
+ private:
+  std::unique_ptr<EventLoop> main_reactor_;
+  std::unique_ptr<Acceptor> acceptor_;
+
+  std::unordered_map<int, std::unique_ptr<Connection>> connections_;
+  std::vector<std::unique_ptr<EventLoop>> sub_reactors_;
+
+  std::unique_ptr<ThreadPool> thread_pool_;
+
+  std::function<void(Connection *)> on_connect_;
+  std::function<void(Connection *)> on_recv_;
+};
+
+```
+
+可以看到，`main_reactor_`、`acceptor_`、`connections_`、`sub_reactors_`和`thread_pool_`都是该服务器拥有的资源，在服务器实例被销毁时，这些资源也需要被销毁，所以使用智能指针`std::unique_ptr<>`来管理，一旦该`TcpServer`实例被销毁，不需要手动释放这些资源、程序会自动帮我们释放，避免了内存泄漏。
+
+而对于`Channel`类：
+
+```cpp
+class Channel {
+ public:
+
+    ......
+
+ private:
+  int fd_;
+  EventLoop *loop_;
+  short listen_events_;
+  short ready_events_;
+  bool exist_;
+  std::function<void()> read_callback_;
+  std::function<void()> write_callback_;
+};
+
+```
+
+可以看到，该类中有一个成员`loop_`，表示该`Channel`实例所在的事件循环`EventLoop`。而Channel类并不拥有该事件循环资源，仅仅是为了访问而存在的一个指针，所以在该`Channel`被销毁时，也绝不可以释放`loop_`，所以这里使用裸指针来表示仅需访问但不拥有的资源。
+
+至此，今天的教程就结束了，我们对前15天的代码进行了重构，使用智能指针`std::unique_ptr<>`来管理独占资源，避免了内存泄漏、内存资源的浪费，也使各组件的生命周期更加明确。我们还尽可能使用了移动语义进行所有权的转移（如针对`std::function<>`），减少了资源复制带来的开销。同时对一部分代码进行了精简、重写，使其更加符合C++编码规范。同时核心库的api以及命名也发生了改变，更加清晰、易用。
+
+完整源代码：[https://github.com/yuesong-feng/30dayMakeCppServer/tree/main/code/day16](https://github.com/yuesong-feng/30dayMakeCppServer/tree/main/code/day16)
