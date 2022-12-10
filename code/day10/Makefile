@@ -4,10 +4,10 @@ server:
 	-pthread \
 	src/util.cpp src/Epoll.cpp src/InetAddress.cpp src/Socket.cpp src/Connection.cpp \
 	src/Channel.cpp src/EventLoop.cpp src/Server.cpp src/Acceptor.cpp src/Buffer.cpp \
-	src/ThreadPoll.cpp \
+	src/ThreadPool.cpp \
 	-o server
 clean:
 	rm server && rm client
 
 threadTest:
-	g++ -pthread src/ThreadPoll.cpp ThreadPollTest.cpp -o ThreadPollTest
+	g++ -pthread src/ThreadPool.cpp ThreadPoolTest.cpp -o ThreadPoolTest
