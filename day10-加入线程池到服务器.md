@@ -13,7 +13,7 @@
 
 线程池定义如下：
 ```cpp
-class ThreadPoll {
+class ThreadPool {
 private:
     std::vector<std::thread> threads;
     std::queue<std::function<void()>> tasks;
@@ -21,14 +21,14 @@ private:
     std::condition_variable cv;
     bool stop;
 public:
-    ThreadPoll(int size = 10);  // 默认size最好设置为std::thread::hardware_concurrency()
-    ~ThreadPoll();
+    ThreadPool(int size = 10);  // 默认size最好设置为std::thread::hardware_concurrency()
+    ~ThreadPool();
     void add(std::function<void()>);
 };
 ```
 当线程池被构造时：
 ```cpp
-ThreadPoll::ThreadPoll(int size) : stop(false){
+ThreadPool::ThreadPool(int size) : stop(false){
     for(int i = 0; i < size; ++i){  //  启动size个线程
         threads.emplace_back(std::thread([this](){  //定义每个线程的工作函数
             while(true){    
@@ -50,7 +50,7 @@ ThreadPoll::ThreadPoll(int size) : stop(false){
 ```
 当我们需要添加任务时，只需要将任务添加到任务队列：
 ```cpp
-void ThreadPoll::add(std::function<void()> func){
+void ThreadPool::add(std::function<void()> func){
     { //在这个{}作用域内对std::mutex加锁，出了作用域会自动解锁，不需要调用unlock()
         std::unique_lock<std::mutex> lock(tasks_mtx);
         if(stop)

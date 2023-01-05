@@ -6,7 +6,7 @@
 #include <mutex>
 #include <condition_variable>
 
-class ThreadPoll
+class ThreadPool
 {
 private:
     std::vector<std::thread> threads;
@@ -15,8 +15,8 @@ private:
     std::condition_variable cv;
     bool stop;
 public:
-    ThreadPoll(int size = 10);
-    ~ThreadPoll();
+    ThreadPool(int size = 10);
+    ~ThreadPool();
 
     void add(std::function<void()>);
 
