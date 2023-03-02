@@ -36,7 +36,7 @@ void ThreadPool::add(std::function<void()> func){
     {
         std::unique_lock<std::mutex> lock(tasks_mtx);
         if(stop)
-            throw std::runtime_error("ThreadPoll already stop, can't add task any more");
+            throw std::runtime_error("ThreadPool already stop, can't add task any more");
         tasks.emplace(func);
     }
     cv.notify_one();
