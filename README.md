@@ -1,7 +1,5 @@
 # 30天自制C++服务器
 
-### 如访问慢，可以到这里观看：[csblog](https://csblog.cc)
-
 教程的配套网络库：[pine](https://github.com/yuesong-feng/pine)
 
 先说结论：不管使用什么语言，一切后台开发的根基，是面向Linux的C/C++服务器开发。
