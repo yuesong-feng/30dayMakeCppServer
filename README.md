@@ -1,6 +1,7 @@
 # 30天自制C++服务器
 
-教程的配套网络库：[pine](https://github.com/yuesong-feng/pine)
+>该教程是本人学生时代初学C++的历程，工作后已无精力写完剩下部分，回顾当年的代码有诸多不完美甚至瑕疵，有意愿者可以自由修改、开发、续写该项目。
+>更完美的C语言基础库请移步[wheelib](https://github.com/yuesong-feng/wheelib)
 
 先说结论：不管使用什么语言，一切后台开发的根基，是面向Linux的C/C++服务器开发。
 
