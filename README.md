@@ -69,6 +69,8 @@ webbench测试
 
 ......
 
+[Wlgls/30daysCppWebServer](https://github.com/Wlgls/30daysCppWebServer)项目尝试续写了后续部分，可供学习参考
+
 ## Contribute
 
 能力一般、水平有限，如果发现我的教程有不正确或者值得改进的地方，欢迎提issue或直接PR。
