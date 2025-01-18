@@ -153,7 +153,7 @@ void Connection::Business() {
   on_recv_(this);
 }
 
-void Connection::set_delete_connection(std::function<void(int)> const &fn) { delete_connectioin_ = std::move(fn); }
+void Connection::set_delete_connection(std::function<void(int)> const &fn) { delete_connection_ = std::move(fn); }
 
 void Connection::set_on_recv(std::function<void(Connection *)> const &fn) {
   on_recv_ = std::move(fn);
@@ -161,7 +161,7 @@ void Connection::set_on_recv(std::function<void(Connection *)> const &fn) {
   channel_->set_read_callback(bus);
 }
 
-void Connection::Close() { delete_connectioin_(socket_->fd()); }
+void Connection::Close() { delete_connection_(socket_->fd()); }
 
 Connection::State Connection::state() const { return state_; }
 

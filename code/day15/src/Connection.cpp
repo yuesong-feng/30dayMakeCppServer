@@ -147,17 +147,17 @@ void Connection::WriteBlocking() {
   }
 }
 
-void Connection::Send(std::string msg){
-    SetSendBuffer(msg.c_str());
-    Write();
+void Connection::Send(std::string msg) {
+  SetSendBuffer(msg.c_str());
+  Write();
 }
 
-void Connection::Business(){
+void Connection::Business() {
   Read();
   on_message_callback_(this);
 }
 
-void Connection::Close() { delete_connectioin_callback_(sock_); }
+void Connection::Close() { delete_connection_callback_(sock_); }
 
 Connection::State Connection::GetState() { return state_; }
 void Connection::SetSendBuffer(const char *str) { send_buffer_->SetBuf(str); }
@@ -167,7 +167,7 @@ Buffer *Connection::GetSendBuffer() { return send_buffer_; }
 const char *Connection::SendBuffer() { return send_buffer_->ToStr(); }
 
 void Connection::SetDeleteConnectionCallback(std::function<void(Socket *)> const &callback) {
-  delete_connectioin_callback_ = callback;
+  delete_connection_callback_ = callback;
 }
 void Connection::SetOnConnectCallback(std::function<void(Connection *)> const &callback) {
   on_connect_callback_ = callback;

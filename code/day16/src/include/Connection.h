@@ -57,6 +57,6 @@ class Connection {
   std::unique_ptr<Buffer> read_buf_;
   std::unique_ptr<Buffer> send_buf_;
 
-  std::function<void(int)> delete_connectioin_;
+  std::function<void(int)> delete_connection_;
   std::function<void(Connection *)> on_recv_;
 };
