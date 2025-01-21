@@ -54,7 +54,7 @@ class Connection {
   State state_{State::Invalid};
   Buffer *read_buffer_{nullptr};
   Buffer *send_buffer_{nullptr};
-  std::function<void(Socket *)> delete_connectioin_callback_;
+  std::function<void(Socket *)> delete_connection_callback_;
 
   std::function<void(Connection *)> on_connect_callback_;
 
