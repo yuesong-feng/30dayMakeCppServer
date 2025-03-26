@@ -1,5 +1,7 @@
 # 30天自制C++服务器
 
+> 该教程是本人学生时代初学C++的历程，工作后已无精力写完剩下部分，回顾当年的代码有诸多不完美甚至瑕疵，有意愿者可以自由修改、开发、续写该项目。
+
 先说结论：不管使用什么语言，一切后台开发的根基，是面向Linux的C/C++服务器开发。
 
 几乎所有高并发服务器都是运行在Linux环境的，笔者之前也用Java、node写过服务器，但最后发现只是学会了一门技术、一门语言，而并不了解底层的基础原理。一个HTTP请求的过程，为什么可以实现高并发，如何控制TCP连接，如何处理好数据传输的逻辑等等，这些只有面向C/C++编程才能深入了解。
@@ -49,12 +51,6 @@ C/C++学习的一个难点在于初学时无法做出实际上的东西，没有
 [day15-macOS支持、完善业务逻辑自定义](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day15-macOS支持、完善业务逻辑自定义.md)
 
 [day16-重构服务器、使用智能指针](https://github.com/yuesong-feng/30dayMakeCppServer/blob/main/day16-重构核心库、使用智能指针.md)
-
-### todo list
-
-之前本教程停更了三年，最近闲来无事，发现项目已经6k+ stars了，于是打算继续写下去
-
-将在day16的基础上先完善，参考一些其他网络库，写完剩下的部分
 
 [Wlgls/30daysCppWebServer](https://github.com/Wlgls/30daysCppWebServer)项目尝试续写了后续部分，可供学习参考
 
