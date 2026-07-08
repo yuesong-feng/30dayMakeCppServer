@@ -21,7 +21,9 @@ int main() {
     while(true){
         char buf[1024];
         bzero(&buf, sizeof(buf));
-        scanf("%s", buf);
+        //scanf("%s", buf);
+        if(fgets(buf, sizeof(buf), stdin) != NULL)
+            buf[strlen(buf)-1] = '\0'; // 移除可能出现的换行符
         ssize_t write_bytes = write(sockfd, buf, sizeof(buf));
         if(write_bytes == -1){
             printf("socket already disconnected, can't write any more!\n");
